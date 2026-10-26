@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
-data_cache/
+data_cache*/
 stage*/results/
+weights/

@@ -1,6 +1,10 @@
 """Deep CORAL 统一训练入口：各阶段的实验都通过命令行参数切换配置，每次运行写一个 JSON 日志。
 
-例：python train.py --task AW --lam 0 --seed 1 --name s1-base-AW-lam0-seed1 --out_dir stage1_reproduction/results
+例：python train.py --preset caffe --task AW --lam 0 --seed 1 --name s1-base-AW-lam0-seed1 --out_dir stage1_reproduction/results
+
+--preset caffe 对齐原作者的 Caffe 配置（VisionLearningGroup/CORAL 的 D-CORAL_Office31）：
+CaffeNet 预训练权重、BGR 减均值、227 裁剪、学习率每 500 步 ×0.1、测试时随机水平翻转。
+数据缓存应以 prepare_data.py --interp caffe 生成。单独给出的参数会覆盖预设。
 
 输出：
   <out_dir>/logs/<name>.json       配置、每 eval_every 次迭代的指标、最终指标、逐迭代的两项损失
@@ -17,12 +21,15 @@ import torch.nn.functional as F
 
 from coral import data, metrics
 from coral.losses import coral_loss
-from coral.models import LAYERS, AlexNet, extract_features, param_groups
-from coral.utils import code_version, hardware_info, save_json, set_seed
+from coral.models import BACKBONES, LAYERS, build_model, extract_features, param_groups
+from coral.utils import ROOT, code_version, hardware_info, save_json, set_seed
+
+PRESETS = {'caffe': dict(backbone='caffenet', crop=227, lr_schedule='step', test_mirror=True)}
 
 
 def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    p.add_argument('--preset', choices=['none', *PRESETS], default='none', help='一组预设参数，见文件开头说明')
     p.add_argument('--task', required=True, help='迁移任务，如 AW 表示 Amazon→Webcam')
     p.add_argument('--name', required=True, help='运行名，按“阶段-实验-任务-配置-种子”命名')
     p.add_argument('--out_dir', required=True, help='结果目录')
@@ -32,13 +39,21 @@ def parse_args(argv=None):
     p.add_argument('--eval_every', type=int, default=100)
     p.add_argument('--batch_size', type=int, default=128, help='源域、目标域各取这么多')
     p.add_argument('--lr', type=float, default=1e-3)
-    p.add_argument('--lr_schedule', choices=['const', 'inv'], default='const',
-                   help='const：固定学习率；inv：lr0 / (1 + 10p)^0.75，p 为训练进度')
+    p.add_argument('--lr_schedule', choices=['const', 'step', 'inv'], default='const',
+                   help='const：固定学习率；step：每 lr_step 步乘 lr_gamma（原文）；inv：lr0 / (1 + 10p)^0.75，p 为训练进度')
+    p.add_argument('--lr_step', type=int, default=500)
+    p.add_argument('--lr_gamma', type=float, default=0.1)
     p.add_argument('--momentum', type=float, default=0.9)
     p.add_argument('--weight_decay', type=float, default=5e-4)
     p.add_argument('--lam', type=float, default=0.0, help='CORAL 损失权重，0 即无适应基线')
     p.add_argument('--align_layers', default='fc8', help='施加 CORAL 的层，逗号分隔，可选 ' + ','.join(LAYERS))
+    p.add_argument('--backbone', choices=BACKBONES, default='torchvision',
+                   help='caffenet 用 Caffe 预处理（BGR 减均值），torchvision 用 ImageNet 均值方差归一化')
+    p.add_argument('--caffenet_weights', default=os.path.join(ROOT, 'weights', 'caffenet_imagenet.pth'),
+                   help='tools/convert_caffenet.py 的输出')
     p.add_argument('--crop', type=int, default=224, help='裁剪尺寸，CaffeNet 为 227')
+    p.add_argument('--test_mirror', action=argparse.BooleanOptionalAction, default=False,
+                   help='评估时每张图随机水平翻转（原文 Caffe 测试配置如此）')
     p.add_argument('--src_val_frac', type=float, default=0.0, help='从源域按类分层留出、不参与训练的验证集比例')
     p.add_argument('--split_seed', type=int, default=0, help='验证集切分的种子，所有运行共用同一切分')
     p.add_argument('--eval_batches', type=int, default=50, help='评估模式下随机抽多少对 batch 算平均 batch CORAL 距离')
@@ -47,28 +62,38 @@ def parse_args(argv=None):
     p.add_argument('--no_pretrained', action='store_true', help='不加载 ImageNet 预训练权重（仅用于冒烟测试）')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--overwrite', action='store_true', help='日志已存在时也重新训练')
+    preset = p.parse_known_args(argv)[0].preset
+    if preset != 'none':
+        p.set_defaults(**PRESETS[preset])
     args = p.parse_args(argv)
     args.align_layers = [l for l in args.align_layers.split(',') if l]
     bad = set(args.align_layers) - set(LAYERS)
     if bad or not args.align_layers:
         p.error(f'--align_layers 非法：{args.align_layers}')
+    args.preprocess = 'caffe' if args.backbone == 'caffenet' else 'torchvision'
+    if args.backbone == 'caffenet' and not args.no_pretrained and not os.path.exists(args.caffenet_weights):
+        p.error(f'找不到 CaffeNet 权重 {args.caffenet_weights}，请按 README 下载并运行 tools/convert_caffenet.py')
     return args
 
 
 def lr_at(args, it):
     if args.lr_schedule == 'const':
         return args.lr
+    if args.lr_schedule == 'step':
+        return args.lr * args.lr_gamma ** (it // args.lr_step)
     return args.lr / (1 + 10 * it / args.iters) ** 0.75
 
 
 @torch.no_grad()
-def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen):
+def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen, mirror_gen=None):
     """评估模式下（关闭 Dropout、中心裁剪）提取全量特征并计算各项指标。
 
     eval_sets: {'src': (bank, idx, labels), 'tgt': ..., 可选 'src_val': ...}。目标标签只在这里被读取。
+    mirror_gen 不为 None 时测试图像随机水平翻转。
     返回 (指标字典, 各集合的特征, 目标域混淆矩阵)。特征出现 NaN / Inf 时只返回准确率并标记 diverged。
     """
-    feats = {k: extract_features(model, bank, idx, layers) for k, (bank, idx, _) in eval_sets.items()}
+    feats = {k: extract_features(model, bank, idx, layers, mirror_gen=mirror_gen)
+             for k, (bank, idx, _) in eval_sets.items()}
     rec = {f'{k}_acc': metrics.accuracy(feats[k]['fc8'], y) for k, (_, _, y) in eval_sets.items()}
 
     fs, ft = feats['src'], feats['tgt']
@@ -113,13 +138,14 @@ def main(argv=None):
     xs, ys = data.load_domain(args.data_dir, src_name)
     xt, yt = data.load_domain(args.data_dir, tgt_name)
     src_train, src_val = data.stratified_split(ys, args.src_val_frac, args.split_seed)
-    src_bank = data.ImageBank(xs, device, args.crop)
-    tgt_bank = data.ImageBank(xt, device, args.crop)
+    src_bank = data.ImageBank(xs, device, args.crop, args.preprocess)
+    tgt_bank = data.ImageBank(xt, device, args.crop, args.preprocess)
     del xs, xt
 
-    # 三个独立的生成器：源域顺序与增强、目标域顺序与增强、评估抽样。
+    # 独立的生成器：源域顺序与增强、目标域顺序与增强、评估抽样、测试翻转。
     # 同一种子下不同 λ 的运行，fc8 初始化、数据顺序、增强、Dropout 掩码都相同，便于配对比较。
-    gens = [torch.Generator().manual_seed(args.seed * 1000 + k) for k in range(3)]
+    gens = [torch.Generator().manual_seed(args.seed * 1000 + k) for k in range(4)]
+    mirror_gen = gens[3] if args.test_mirror else None
     src_stream = data.LabeledStream(src_bank, ys, src_train, args.batch_size, gens[0])
     tgt_stream = data.UnlabeledStream(tgt_bank, np.arange(len(tgt_bank)), args.batch_size, gens[1])
 
@@ -131,7 +157,7 @@ def main(argv=None):
         eval_sets['src_val'] = eval_set(src_bank, src_val, ys)
     layers = [l for l in LAYERS if l in {'fc7', 'fc8', *args.align_layers}]
 
-    model = AlexNet(len(classes), pretrained=not args.no_pretrained).to(device)
+    model = build_model(args.backbone, len(classes), not args.no_pretrained, args.caffenet_weights).to(device)
     opt = torch.optim.SGD(param_groups(model, args.lr, args.weight_decay), lr=args.lr, momentum=args.momentum)
 
     history, cls_trace, coral_trace, steps = [], [], [], []
@@ -139,7 +165,7 @@ def main(argv=None):
     for it in range(args.iters + 1):
         if it % args.eval_every == 0 or it == args.iters:
             rec, feats, cm = evaluate(model, eval_sets, layers, args.align_layers,
-                                      args.batch_size, args.eval_batches, gens[2])
+                                      args.batch_size, args.eval_batches, gens[2], mirror_gen)
             if steps:
                 s = torch.stack(steps).cpu()
                 cls_trace += [sig(v) for v in s[:, 0].tolist()]
@@ -176,7 +202,8 @@ def main(argv=None):
                                   (out_s['fc8'].argmax(1) == ys_b).float().mean()]))
 
     config = dict(vars(args), src_domain=src_name, tgt_domain=tgt_name, n_src_train=len(src_train),
-                  n_src_val=len(src_val), n_tgt=len(yt), classes=classes)
+                  n_src_val=len(src_val), n_tgt=len(yt), classes=classes,
+                  cache_interp=data.load_meta(args.data_dir).get('interp', 'pil'))
     final = dict(history[-1], tgt_per_class_acc=metrics.per_class_accuracy(cm).tolist(), tgt_confusion=cm.tolist())
     log = {'name': args.name, 'config': config, 'code_version': code_version(), 'hardware': hardware_info(device),
            'time_sec': time.time() - t0, 'history': history, 'final': final,

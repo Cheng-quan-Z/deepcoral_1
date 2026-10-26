@@ -1,9 +1,10 @@
 """Office-31 数据：缓存读取、源域验证集切分、GPU 端数据增强与双流采样。
 
-prepare_data.py 先把每张图缩放到 256x256 存成 uint8 数组。训练时整个域常驻显存，
-随机裁剪、水平翻转和归一化都在 GPU 上完成，效果等价于 torchvision 的
-Resize((256, 256)) → RandomCrop(crop) → RandomHorizontalFlip → Normalize，
-测试时等价于 Resize((256, 256)) → CenterCrop(crop) → Normalize。
+prepare_data.py 先把每张图缩放到 256x256 存成 RGB uint8 数组。训练时整个域常驻显存，
+随机裁剪、水平翻转和归一化都在 GPU 上完成，等价于“缩放到 256×256 → 随机裁剪 → 随机水平翻转 → 归一化”，
+测试时为“中心裁剪 → 归一化”。归一化有两种：
+  torchvision：RGB，/255 后减 ImageNet 均值、除标准差；
+  caffe：BGR，0–255 直接减均值 (104, 116.7, 122.7)，与原文 Caffe 配置相同。
 """
 import json
 import os
@@ -16,6 +17,8 @@ EXPECTED_SIZES = {'amazon': 2817, 'dslr': 498, 'webcam': 795}
 RESIZE = 256
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+CAFFE_MEAN_BGR = (104.0, 116.7, 122.7)
+PREPROCESS = ('caffe', 'torchvision')
 
 
 def parse_task(task):
@@ -27,6 +30,15 @@ def parse_task(task):
 
 def load_classes(data_dir):
     with open(os.path.join(data_dir, 'classes.json'), encoding='utf-8') as f:
+        return json.load(f)
+
+
+def load_meta(data_dir):
+    """缓存的元信息（缩放方式、文件列表）；早期缓存没有 interp 字段，当时只有 PIL 缩放。"""
+    path = os.path.join(data_dir, 'meta.json')
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -53,19 +65,28 @@ def stratified_split(labels, val_frac, seed=0):
 class ImageBank:
     """一个域的全部图像，常驻 device。"""
 
-    def __init__(self, images, device, crop=224):
+    def __init__(self, images, device, crop=224, preprocess='torchvision'):
         assert images.shape[1:] == (RESIZE, RESIZE, 3), images.shape
+        assert preprocess in PREPROCESS, preprocess
         self.x = torch.from_numpy(images).to(device)
         self.device = device
         self.crop = crop
-        self.mean = torch.tensor(IMAGENET_MEAN, device=device).view(1, 3, 1, 1) * 255
-        self.std = torch.tensor(IMAGENET_STD, device=device).view(1, 3, 1, 1) * 255
+        self.bgr = preprocess == 'caffe'
+        if self.bgr:
+            self.mean = torch.tensor(CAFFE_MEAN_BGR, device=device).view(1, 3, 1, 1)
+            self.std = torch.ones(1, 3, 1, 1, device=device)
+        else:
+            self.mean = torch.tensor(IMAGENET_MEAN, device=device).view(1, 3, 1, 1) * 255
+            self.std = torch.tensor(IMAGENET_STD, device=device).view(1, 3, 1, 1) * 255
 
     def __len__(self):
         return self.x.shape[0]
 
     def _normalize(self, patch):
-        return (patch.permute(0, 3, 1, 2).float() - self.mean) / self.std
+        x = patch.permute(0, 3, 1, 2).float()
+        if self.bgr:
+            x = x.flip(1)
+        return (x - self.mean) / self.std
 
     def augment(self, idx, gen):
         """训练增强：每张图独立的随机裁剪位置和随机水平翻转。gen 为 CPU 上的 torch.Generator。"""
@@ -79,10 +100,14 @@ class ImageBank:
         idx, rows, cols = (t.to(self.device) for t in (idx, rows, cols))
         return self._normalize(self.x[idx[:, None, None], rows[:, :, None], cols[:, None, :]])
 
-    def center(self, idx):
-        """测试预处理：中心裁剪。"""
+    def center(self, idx, mirror_gen=None):
+        """测试预处理：中心裁剪。给出 mirror_gen 时每张图再随机水平翻转（Caffe 测试阶段 mirror: true 的行为）。"""
         o, c = (RESIZE - self.crop) // 2, self.crop
-        return self._normalize(self.x[idx.to(self.device), o:o + c, o:o + c])
+        patch = self.x[idx.to(self.device), o:o + c, o:o + c]
+        if mirror_gen is not None:
+            flip = (torch.rand(len(idx), generator=mirror_gen) < 0.5).to(self.device)
+            patch = torch.where(flip[:, None, None, None], patch.flip(2), patch)
+        return self._normalize(patch)
 
 
 class _Stream:

@@ -84,7 +84,7 @@ def main():
     p.add_argument('--out_dir', required=True)
     p.add_argument('--seed', type=int, default=1, help='标定所用种子，同时也是被登记的正式运行的种子')
     p.add_argument('--prefix', default='s1')
-    p.add_argument('--exp', default='coral', help='正式 Deep CORAL 运行的实验名')
+    p.add_argument('--exp', default='coralrule', help='正式 Deep CORAL 运行的实验名')
     p.add_argument('--calib_exp', default='calib', help='标定运行的实验名')
     p.add_argument('--lambda_file', default=None, help='默认 <out_dir>/lambda_star.json')
     args, extra = p.parse_known_args()

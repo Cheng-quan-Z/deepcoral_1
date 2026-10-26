@@ -1,4 +1,4 @@
-"""冒烟测试：数值核对 + 用假数据从数据缓存到阶段一汇总完整跑一遍。CPU 上约 1–2 分钟。
+"""冒烟测试：数值核对 + 用假数据从数据缓存到阶段一汇总完整跑一遍。CPU 上约 3–5 分钟，不需要下载任何文件。
 
 python tests/smoke_test.py
 """
@@ -14,10 +14,13 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
 
+import convert_caffenet  # noqa: E402
 from coral import data, metrics  # noqa: E402
 from coral.losses import coral_loss, covariance  # noqa: E402
-from coral.models import AlexNet, param_groups  # noqa: E402
+from coral.models import CAFFENET_CONV_INDEX, AlexNet, CaffeNet, param_groups  # noqa: E402
+from train import lr_at, parse_args  # noqa: E402
 
 
 def check_covariance():
@@ -63,6 +66,17 @@ def check_augment():
     ref = ((images[1, 16:240, 16:240] - mean) / std).transpose(2, 0, 1)
     assert np.allclose(center, ref, atol=1e-4)
 
+    # Caffe 预处理：227 中心裁剪（偏移 14），BGR，0–255 减均值
+    caffe = data.ImageBank(images, torch.device('cpu'), crop=227, preprocess='caffe')
+    ref = (images[2, 14:241, 14:241, ::-1] - np.array(data.CAFFE_MEAN_BGR)).transpose(2, 0, 1)
+    assert np.allclose(caffe.center(torch.tensor([2]))[0].numpy(), ref, atol=1e-4)
+    # 测试时随机翻转：翻转的那些恰好是中心裁剪的左右镜像
+    plain = caffe.center(torch.arange(5))
+    mirrored = caffe.center(torch.arange(5), torch.Generator().manual_seed(3))
+    flip = torch.rand(5, generator=torch.Generator().manual_seed(3)) < 0.5
+    for k in range(5):
+        assert torch.allclose(mirrored[k], plain[k].flip(2) if flip[k] else plain[k])
+
 
 def check_streams():
     bank = data.ImageBank(np.zeros((10, 256, 256, 3), np.uint8), torch.device('cpu'))
@@ -76,12 +90,79 @@ def check_streams():
 
 
 def check_model():
-    model = AlexNet(31, pretrained=False)
-    for crop in (224, 227):
-        out = model(torch.randn(2, 3, crop, crop))
-        assert {k: v.shape[1] for k, v in out.items()} == {'conv5': 256, 'fc6': 4096, 'fc7': 4096, 'fc8': 31}
-    mults = sorted((g['lr_mult'], g['weight_decay']) for g in param_groups(model, 1e-3, 5e-4))
-    assert mults == [(1.0, 5e-4), (2.0, 0.0), (10.0, 5e-4), (20.0, 0.0)]
+    for model in (AlexNet(31, pretrained=False), CaffeNet(31)):
+        for crop in (224, 227):
+            out = model(torch.randn(2, 3, crop, crop))
+            assert {k: v.shape[1] for k, v in out.items()} == {'conv5': 256, 'fc6': 4096, 'fc7': 4096, 'fc8': 31}
+        mults = sorted((g['lr_mult'], g['weight_decay']) for g in param_groups(model, 1e-3, 5e-4))
+        assert mults == [(1.0, 5e-4), (2.0, 0.0), (10.0, 5e-4), (20.0, 0.0)]
+    # CaffeNet 各层参数形状与 Caffe 的 bvlc_reference_caffenet 一致（分组卷积的输入通道减半）
+    shapes = {k: tuple(v.shape) for k, v in CaffeNet(31).state_dict().items() if k.endswith('weight')}
+    assert shapes['features.0.weight'] == (96, 3, 11, 11) and shapes['features.4.weight'] == (256, 48, 5, 5)
+    assert shapes['features.10.weight'] == (384, 192, 3, 3) and shapes['fc6.weight'] == (4096, 9216)
+
+
+def check_lr_and_preset():
+    args = parse_args(['--task', 'AW', '--name', 'x', '--out_dir', 'x', '--preset', 'caffe', '--no_pretrained'])
+    assert (args.backbone, args.crop, args.lr_schedule, args.test_mirror, args.preprocess) == \
+        ('caffenet', 227, 'step', True, 'caffe')
+    assert [lr_at(args, it) for it in (0, 499, 500, 1999)] == [1e-3, 1e-3, 1e-3 * 0.1, 1e-3 * 0.1 ** 3]
+    args = parse_args(['--task', 'AW', '--name', 'x', '--out_dir', 'x', '--preset', 'caffe', '--no_pretrained',
+                       '--lr_schedule', 'const', '--no-test_mirror'])  # 单独给出的参数覆盖预设
+    assert args.lr_schedule == 'const' and not args.test_mirror
+
+
+def _varint(n):
+    out = bytearray()
+    while True:
+        b, n = n & 0x7F, n >> 7
+        out.append(b | (0x80 if n else 0))
+        if not n:
+            return bytes(out)
+
+
+def _field(num, wire, payload):
+    key = _varint(num << 3 | wire)
+    return key + (_varint(len(payload)) + payload if wire == 2 else payload)
+
+
+def _caffemodel(params, v1):
+    """按 caffe.proto 编码一个 NetParameter。v1=True 为旧版 layers / V1LayerParameter 写法。"""
+    net = _field(1, 2, b'CaffeNet')
+    for name, blobs in params.items():
+        enc = b''.join(_field(6 if v1 else 7, 2, _field(5, 2, b.astype('<f4').tobytes())) for b in blobs)
+        if v1:
+            layer = _field(4, 2, name.encode()) + _field(5, 0, _varint(4)) + enc
+            net += _field(2, 2, layer)
+        else:
+            layer = _field(1, 2, name.encode()) + _field(2, 2, b'Convolution') + enc
+            net += _field(100, 2, layer)
+    net += _field(2 if v1 else 100, 2, _field(4 if v1 else 1, 2, b'relu1'))  # 无参数的层应被忽略
+    return net
+
+
+def check_converter(tmp):
+    """用随机 CaffeNet 参数编码出假的 caffemodel，转换后应逐元素还原。"""
+    ref = CaffeNet(num_classes=1000).state_dict()
+    names = {**{n: f'features.{i}' for n, i in CAFFENET_CONV_INDEX.items()}, 'fc6': 'fc6', 'fc7': 'fc7', 'fc8': 'fc8'}
+    params = {n: [ref[f'{k}.weight'].numpy(), ref[f'{k}.bias'].numpy()] for n, k in names.items()}
+    path = os.path.join(tmp, 'fake.caffemodel')
+    with open(path, 'wb') as f:
+        f.write(_caffemodel(params, v1=True))
+    state, fc8 = convert_caffenet.convert(convert_caffenet.parse_caffemodel(path))
+    assert all(torch.equal(state[k], ref[k]) for k in state) and len(state) == 14  # conv1–5、fc6、fc7 的权重和偏置
+    assert torch.equal(fc8['weight'], ref['fc8.weight'])
+    small = {'conv1': [np.arange(6, dtype=np.float32), np.ones(2, np.float32)]}
+    with open(path, 'wb') as f:
+        f.write(_caffemodel(small, v1=False))
+    layers = convert_caffenet.parse_caffemodel(path)
+    assert list(layers) == ['conv1'] and np.array_equal(layers['conv1'][0], small['conv1'][0])
+    unpacked = b''.join(_field(5, 5, np.float32(v).tobytes()) for v in (1.5, -2.0))  # 非 packed 写法
+    assert np.array_equal(convert_caffenet.parse_blob(unpacked), [1.5, -2.0])
+    # 转换结果能被 CaffeNet 直接加载
+    weights = os.path.join(tmp, 'caffenet.pth')
+    torch.save({'state_dict': state, 'imagenet_fc8': fc8}, weights)
+    assert torch.equal(CaffeNet(31, weights=weights).fc6.weight, ref['fc6.weight'])
 
 
 def check_metrics():
@@ -118,8 +199,13 @@ def run(*cmd):
     subprocess.run([sys.executable, *cmd], check=True, cwd=ROOT)
 
 
+def load_log(out, name):
+    with open(os.path.join(out, 'logs', f'{name}.json'), encoding='utf-8') as f:
+        return json.load(f)
+
+
 def check_pipeline(tmp):
-    raw, cache, out = (os.path.join(tmp, d) for d in ('office31', 'cache', 'results'))
+    raw, cache, cache_pil, out = (os.path.join(tmp, d) for d in ('office31', 'cache', 'cache_pil', 'results'))
     rng = np.random.RandomState(0)
     for domain in data.EXPECTED_SIZES:
         for c in range(31):
@@ -127,40 +213,59 @@ def check_pipeline(tmp):
             os.makedirs(d)
             for k in range(4):
                 Image.fromarray(rng.randint(0, 256, (60, 80, 3), dtype=np.uint8)).save(os.path.join(d, f'{k}.jpg'))
-    run('prepare_data.py', '--root', raw, '--out', cache, '--workers', '2')
+    run('prepare_data.py', '--root', raw, '--out', cache, '--interp', 'caffe', '--workers', '2')
+    run('prepare_data.py', '--root', raw, '--out', cache_pil, '--interp', 'pil', '--workers', '2')
+    a, b = np.load(os.path.join(cache, 'amazon_x.npy')), np.load(os.path.join(cache_pil, 'amazon_x.npy'))
+    assert a.shape == b.shape and not np.array_equal(a, b)  # 两种缩放方式确实不同
 
-    fast = ['--data_dir', cache, '--iters', '20', '--eval_every', '10', '--batch_size', '16',
-            '--eval_batches', '3', '--no_pretrained', '--device', 'cpu']
-    run('train.py', '--task', 'AW', '--seed', '1', '--lam', '0', '--name', 's1-base-AW-lam0-seed1',
-        '--out_dir', out, '--save_features', '--save_ckpt', *fast)
+    fast = ['--iters', '20', '--eval_every', '10', '--batch_size', '16', '--eval_batches', '3',
+            '--no_pretrained', '--device', 'cpu']
+    runner = ['stage1_reproduction/run_stage1.py']
+    common = ['--data_dir', cache, '--data_dir_pil', cache_pil, '--out_dir', out,
+              '--tasks', 'AW', '--seeds', '1', '--attr_seeds', '1', *fast]
+    run(*runner, 'baseline', *common)
+    run(*runner, 'coral', *common)
     # 随机初始化的网络在噪声图上 CORAL 损失约 1e-12，标定出的 λ 极大会发散；lr = 0 让两次运行损失相同，只测流程
-    run('stage1_reproduction/calibrate_lambda.py', '--tasks', 'AW', '--seed', '1', '--out_dir', out,
-        '--save_features', *fast, '--lr', '0')
+    run(*runner, 'rule', *common, '--lr', '0')
+    run(*runner, 'attribution', *common)
     run('train.py', '--task', 'DA', '--seed', '2', '--lam', '1', '--name', 's9-misc-DA-all-seed2', '--out_dir', out,
-        '--align_layers', 'conv5,fc6,fc7,fc8', '--lr_schedule', 'inv', '--src_val_frac', '0.25', '--crop', '227', *fast)
-    run('train.py', '--task', 'WD', '--lam', '1e20', '--lr', '10', '--name', 's9-diverge-WD-big-seed1', '--out_dir', out, *fast)
+        '--align_layers', 'conv5,fc6,fc7,fc8', '--lr_schedule', 'inv', '--src_val_frac', '0.25', '--crop', '227',
+        '--data_dir', cache, *fast)
+    run('train.py', '--task', 'WD', '--lam', '1e20', '--lr', '10', '--name', 's9-diverge-WD-big-seed1', '--out_dir', out,
+        '--data_dir', cache, *fast)
     run('stage1_reproduction/analyze_stage1.py', '--out_dir', out)
 
-    with open(os.path.join(out, 'logs', 's1-coral-AW-lamstar-seed1.json'), encoding='utf-8') as f:
-        log = json.load(f)
-    assert log['promoted_from'] and len(log['trace']['cls_loss']) == 20 and len(log['history']) == 3
+    log = load_log(out, 's1-coral-AW-lamoff-seed1')
+    cfg = log['config']
+    assert (cfg['backbone'], cfg['crop'], cfg['lr_schedule'], cfg['test_mirror'], cfg['lam'], cfg['cache_interp']) == \
+        ('caffenet', 227, 'step', True, 0.8, 'caffe')
     for key in ('tgt_acc', 'tgt_bal_acc', 'coral_full_fc8', 'coral_evalbatch_fc8', 'erank_fc7_tgt', 'tgt_snd', 'tgt_ece'):
         assert key in log['final'], key
-    feats = np.load(os.path.join(out, 'features', 's1-coral-AW-lamstar-seed1.npz'))
+    log = load_log(out, 's1-coralrule-AW-lamstar-seed1')
+    assert log['promoted_from'] and len(log['trace']['cls_loss']) == 20 and len(log['history']) == 3
+    feats = np.load(os.path.join(out, 'features', 's1-coralrule-AW-lamstar-seed1.npz'))
     assert feats['tgt_fc7'].shape == (124, 4096) and feats['src_fc8'].shape == (124, 31)
-    with open(os.path.join(out, 'logs', 's9-misc-DA-all-seed2.json'), encoding='utf-8') as f:
-        log = json.load(f)
+    tvall = load_log(out, 's1-attr-AW-tvall-seed1')['config']
+    assert (tvall['backbone'], tvall['crop'], tvall['lr_schedule'], tvall['test_mirror'], tvall['cache_interp']) == \
+        ('torchvision', 224, 'const', False, 'pil')
+    log = load_log(out, 's9-misc-DA-all-seed2')
     assert log['config']['n_src_val'] == 31 and 'src_val_acc' in log['final'] and 'coral_full_conv5' in log['final']
-    for name in ('stage1_summary.md', 'stage1_runs.csv', 'figures/fig2_AW.png'):
+    with open(os.path.join(out, 'stage1_summary.md'), encoding='utf-8') as f:
+        summary = f.read()
+    for section in ('主结果', '与原作者训练日志对照', '规则标定', '差距归因'):
+        assert section in summary, section
+    for name in ('stage1_runs.csv', 'figures/fig2_AW.png'):
         assert os.path.exists(os.path.join(out, name)), name
 
 
 def main():
-    for check in (check_covariance, check_gradient, check_augment, check_streams, check_model, check_metrics,
-                  check_calibration_rounds):
+    for check in (check_covariance, check_gradient, check_augment, check_streams, check_model, check_lr_and_preset,
+                  check_metrics, check_calibration_rounds):
         check()
         print(f'[ok] {check.__name__}', flush=True)
     with tempfile.TemporaryDirectory() as tmp:
+        check_converter(tmp)
+        print('[ok] check_converter', flush=True)
         check_pipeline(tmp)
     print('[ok] 全部通过')
 
