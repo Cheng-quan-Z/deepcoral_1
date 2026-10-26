@@ -1,8 +1,8 @@
 """把 Office-31 三个域的图像统一缩放到 256x256，存成 uint8 数组缓存。只需运行一次。
 
-python prepare_data.py --root /path/to/office31 --out data_cache
+python prepare_data.py --root data/office31 --out data_cache
 
---root 下应有 amazon / dslr / webcam 三个目录，每个目录下是 images/<类名>/*.jpg 或直接 <类名>/*.jpg。
+仓库自带的 Office-31 在 data/office31。--root 下应有 amazon / dslr / webcam 三个目录，每个目录下是 images/<类名>/*.jpg 或直接 <类名>/*.jpg。
 三个域按类名排序统一类别编号。
 """
 import argparse
@@ -30,7 +30,7 @@ def load_image(path):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument('--root', required=True, help='Office-31 根目录')
+    p.add_argument('--root', default='data/office31', help='Office-31 根目录')
     p.add_argument('--out', default='data_cache', help='缓存输出目录')
     p.add_argument('--workers', type=int, default=8)
     args = p.parse_args()

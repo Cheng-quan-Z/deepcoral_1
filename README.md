@@ -18,10 +18,10 @@ pip install -r requirements.txt
 
 ## 3. 生成数据缓存
 
-缓存放在 WSL 自己的文件系统里，读取比 /mnt/e 快得多。
+Office-31 已在 `data/office31`；缓存放在 WSL 自己的文件系统里，读取比 /mnt/e 快得多。
 
 ```bash
-python prepare_data.py --root /path/to/office31 --out ~/data_cache
+python prepare_data.py --root data/office31 --out ~/data_cache
 ```
 
 ## 4. 冒烟测试
