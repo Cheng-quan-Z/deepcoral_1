@@ -111,30 +111,43 @@ class ImageBank:
 
 
 class _Stream:
-    """无限循环的随机索引流：每个 epoch 重新打乱，丢弃不满的 batch，保证每步样本数恒定。"""
+    """无限循环的随机索引流，每个 epoch 重新打乱，每步样本数恒定。epoch 末尾不满一个 batch 时：
+    wrap=False 丢弃剩余样本；wrap=True 把剩余样本接上下一轮打乱后的开头（Caffe ImageData 层的做法）。
+    """
 
-    def __init__(self, indices, batch_size, gen):
+    def __init__(self, indices, batch_size, gen, wrap=False):
         self.indices = torch.as_tensor(indices, dtype=torch.long)
         if len(self.indices) < batch_size:
             raise ValueError(f'样本数 {len(self.indices)} 小于 batch 大小 {batch_size}')
         self.batch_size = batch_size
         self.gen = gen
+        self.wrap = wrap
         self.order, self.pos = None, 0
 
+    def _reshuffle(self):
+        self.order = self.indices[torch.randperm(len(self.indices), generator=self.gen)]
+        self.pos = 0
+
     def _next_idx(self):
-        if self.order is None or self.pos + self.batch_size > len(self.indices):
-            self.order = self.indices[torch.randperm(len(self.indices), generator=self.gen)]
-            self.pos = 0
-        batch = self.order[self.pos:self.pos + self.batch_size]
-        self.pos += self.batch_size
-        return batch
+        n = len(self.indices)
+        if self.order is None or (not self.wrap and self.pos + self.batch_size > n):
+            self._reshuffle()
+        parts, need = [], self.batch_size
+        while need:
+            if self.pos >= n:
+                self._reshuffle()
+            take = self.order[self.pos:self.pos + need]
+            parts.append(take)
+            self.pos += len(take)
+            need -= len(take)
+        return torch.cat(parts)
 
 
 class LabeledStream(_Stream):
     """源域训练流：返回 (图像, 标签)。"""
 
-    def __init__(self, bank, labels, indices, batch_size, gen):
-        super().__init__(indices, batch_size, gen)
+    def __init__(self, bank, labels, indices, batch_size, gen, wrap=False):
+        super().__init__(indices, batch_size, gen, wrap)
         self.bank = bank
         self.labels = torch.as_tensor(labels, dtype=torch.long).to(bank.device)
 
@@ -146,8 +159,8 @@ class LabeledStream(_Stream):
 class UnlabeledStream(_Stream):
     """目标域训练流：构造时不接收标签，只返回图像，从结构上杜绝训练读到目标标签。"""
 
-    def __init__(self, bank, indices, batch_size, gen):
-        super().__init__(indices, batch_size, gen)
+    def __init__(self, bank, indices, batch_size, gen, wrap=False):
+        super().__init__(indices, batch_size, gen, wrap)
         self.bank = bank
 
     def next(self):

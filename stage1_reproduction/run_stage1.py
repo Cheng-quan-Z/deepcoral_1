@@ -11,7 +11,8 @@ python stage1_reproduction/run_stage1.py <阶段> --data_dir <caffe 缩放的缓
   analyze      只做汇总
   all          依次 baseline、coral、rule
 
-所有运行都使用 train.py --preset caffe（CaffeNet、BGR 减均值、227 裁剪、step 学习率、测试随机翻转）。
+所有运行都使用 train.py --preset caffe（CaffeNet、BGR 减均值、227 裁剪、step 学习率、Caffe 写法的 SGD、
+epoch 剩余样本接到下一轮、测试随机翻转）。
 已完成的运行会被跳过，中断后重跑同一命令即可续跑。未识别的参数原样传给 train.py。
 """
 import argparse
@@ -31,7 +32,8 @@ ATTRIBUTION = {
     'const': ['--lr_schedule', 'const'],
     'pil': [],  # 只换数据缓存
     'tv': ['--backbone', 'torchvision', '--crop', '224'],
-    'tvall': ['--backbone', 'torchvision', '--crop', '224', '--lr_schedule', 'const', '--no-test_mirror'],
+    'tvall': ['--backbone', 'torchvision', '--crop', '224', '--lr_schedule', 'const', '--optimizer', 'torch',
+              '--no-batch_wrap', '--no-test_mirror'],
 }
 
 

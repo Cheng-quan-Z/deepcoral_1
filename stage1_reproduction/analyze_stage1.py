@@ -279,7 +279,8 @@ def attribution_table(runs):
         lines.append(f'| 平均（{len(done)} 个任务） | {np.mean([PAPER_CNN[t] for t in done]):.1f} | {avg["base"]:.1f} | '
                      + ' | '.join(f'{avg[c]:.1f}，{avg[c] - avg["base"]:+.1f}' for c in cfgs) + ' |')
     return lines + ['', '每格为“均值 ± 标准差（种子数），与原文配置同种子配对的差值”。'
-                    '“全部 torchvision 风格”即最初那版设置（torchvision AlexNet、224、PIL 缩放、固定学习率、测试不翻转）。', '']
+                    '“全部 torchvision 风格”即最初那版设置（torchvision AlexNet、224、PIL 缩放、固定学习率、PyTorch SGD、'
+                    '丢弃 epoch 剩余样本、测试不翻转）。', '']
 
 
 def official_curves(official, task):

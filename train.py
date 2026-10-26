@@ -3,7 +3,8 @@
 例：python train.py --preset caffe --task AW --lam 0 --seed 1 --name s1-base-AW-lam0-seed1 --out_dir stage1_reproduction/results
 
 --preset caffe 对齐原作者的 Caffe 配置（VisionLearningGroup/CORAL 的 D-CORAL_Office31）：
-CaffeNet 预训练权重、BGR 减均值、227 裁剪、学习率每 500 步 ×0.1、测试时随机水平翻转。
+CaffeNet 预训练权重、BGR 减均值、227 裁剪、学习率每 500 步 ×0.1、Caffe 写法的 SGD 动量、
+epoch 末尾剩余样本接到下一轮、测试时随机水平翻转。
 数据缓存应以 prepare_data.py --interp caffe 生成。单独给出的参数会覆盖预设。
 
 输出：
@@ -22,9 +23,11 @@ import torch.nn.functional as F
 from coral import data, metrics
 from coral.losses import coral_loss
 from coral.models import BACKBONES, LAYERS, build_model, extract_features, param_groups
+from coral.optim import CaffeSGD
 from coral.utils import ROOT, code_version, hardware_info, save_json, set_seed
 
-PRESETS = {'caffe': dict(backbone='caffenet', crop=227, lr_schedule='step', test_mirror=True)}
+PRESETS = {'caffe': dict(backbone='caffenet', crop=227, lr_schedule='step', optimizer='caffe', batch_wrap=True,
+                         test_mirror=True)}
 
 
 def parse_args(argv=None):
@@ -38,11 +41,15 @@ def parse_args(argv=None):
     p.add_argument('--iters', type=int, default=2000)
     p.add_argument('--eval_every', type=int, default=100)
     p.add_argument('--batch_size', type=int, default=128, help='源域、目标域各取这么多')
+    p.add_argument('--batch_wrap', action=argparse.BooleanOptionalAction, default=False,
+                   help='epoch 末尾不满一个 batch 的样本接上下一轮开头（Caffe 做法），否则丢弃')
     p.add_argument('--lr', type=float, default=1e-3)
     p.add_argument('--lr_schedule', choices=['const', 'step', 'inv'], default='const',
                    help='const：固定学习率；step：每 lr_step 步乘 lr_gamma（原文）；inv：lr0 / (1 + 10p)^0.75，p 为训练进度')
     p.add_argument('--lr_step', type=int, default=500)
     p.add_argument('--lr_gamma', type=float, default=0.1)
+    p.add_argument('--optimizer', choices=['torch', 'caffe'], default='torch',
+                   help='caffe：学习率乘进动量（Caffe 写法），学习率阶梯下降时与 torch.optim.SGD 不同')
     p.add_argument('--momentum', type=float, default=0.9)
     p.add_argument('--weight_decay', type=float, default=5e-4)
     p.add_argument('--lam', type=float, default=0.0, help='CORAL 损失权重，0 即无适应基线')
@@ -146,8 +153,8 @@ def main(argv=None):
     # 同一种子下不同 λ 的运行，fc8 初始化、数据顺序、增强、Dropout 掩码都相同，便于配对比较。
     gens = [torch.Generator().manual_seed(args.seed * 1000 + k) for k in range(4)]
     mirror_gen = gens[3] if args.test_mirror else None
-    src_stream = data.LabeledStream(src_bank, ys, src_train, args.batch_size, gens[0])
-    tgt_stream = data.UnlabeledStream(tgt_bank, np.arange(len(tgt_bank)), args.batch_size, gens[1])
+    src_stream = data.LabeledStream(src_bank, ys, src_train, args.batch_size, gens[0], args.batch_wrap)
+    tgt_stream = data.UnlabeledStream(tgt_bank, np.arange(len(tgt_bank)), args.batch_size, gens[1], args.batch_wrap)
 
     def eval_set(bank, idx, labels):
         return bank, torch.as_tensor(idx, dtype=torch.long), torch.as_tensor(labels[idx], dtype=torch.long).to(device)
@@ -158,7 +165,8 @@ def main(argv=None):
     layers = [l for l in LAYERS if l in {'fc7', 'fc8', *args.align_layers}]
 
     model = build_model(args.backbone, len(classes), not args.no_pretrained, args.caffenet_weights).to(device)
-    opt = torch.optim.SGD(param_groups(model, args.lr, args.weight_decay), lr=args.lr, momentum=args.momentum)
+    sgd = CaffeSGD if args.optimizer == 'caffe' else torch.optim.SGD
+    opt = sgd(param_groups(model, args.lr, args.weight_decay), lr=args.lr, momentum=args.momentum)
 
     history, cls_trace, coral_trace, steps = [], [], [], []
     t0 = time.time()

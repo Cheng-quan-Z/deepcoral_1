@@ -20,6 +20,7 @@ import convert_caffenet  # noqa: E402
 from coral import data, metrics  # noqa: E402
 from coral.losses import coral_loss, covariance  # noqa: E402
 from coral.models import CAFFENET_CONV_INDEX, AlexNet, CaffeNet, param_groups  # noqa: E402
+from coral.optim import CaffeSGD  # noqa: E402
 from train import lr_at, parse_args  # noqa: E402
 
 
@@ -85,6 +86,10 @@ def check_streams():
     src = data.LabeledStream(bank, np.arange(10), np.arange(10), 4, torch.Generator().manual_seed(0))
     seen = torch.cat([src.next()[1] for _ in range(2)])
     assert len(set(seen.tolist())) == 8  # 一个 epoch 内不重复，10 张只用 8 张（丢弃不满的 batch）
+    # Caffe 做法：剩下的 2 张接到下一轮开头，所以前 10 个样本恰好是全部 10 张
+    wrap = data.LabeledStream(bank, np.arange(10), np.arange(10), 4, torch.Generator().manual_seed(0), wrap=True)
+    seen = torch.cat([wrap.next()[1] for _ in range(3)])
+    assert len(seen) == 12 and sorted(seen[:10].tolist()) == list(range(10))
     tr, va = data.stratified_split(np.repeat(np.arange(3), 10), 0.1)
     assert len(va) == 3 and len(np.intersect1d(tr, va)) == 0
 
@@ -104,12 +109,34 @@ def check_model():
 
 def check_lr_and_preset():
     args = parse_args(['--task', 'AW', '--name', 'x', '--out_dir', 'x', '--preset', 'caffe', '--no_pretrained'])
-    assert (args.backbone, args.crop, args.lr_schedule, args.test_mirror, args.preprocess) == \
-        ('caffenet', 227, 'step', True, 'caffe')
+    assert (args.backbone, args.crop, args.lr_schedule, args.test_mirror, args.preprocess, args.optimizer,
+            args.batch_wrap) == ('caffenet', 227, 'step', True, 'caffe', 'caffe', True)
     assert [lr_at(args, it) for it in (0, 499, 500, 1999)] == [1e-3, 1e-3, 1e-3 * 0.1, 1e-3 * 0.1 ** 3]
     args = parse_args(['--task', 'AW', '--name', 'x', '--out_dir', 'x', '--preset', 'caffe', '--no_pretrained',
                        '--lr_schedule', 'const', '--no-test_mirror'])  # 单独给出的参数覆盖预设
     assert args.lr_schedule == 'const' and not args.test_mirror
+
+
+def check_caffe_sgd():
+    """学习率不变时与 torch.optim.SGD 完全一致；学习率下降后旧动量仍按原步长衰减，与手算的 Caffe 公式一致。"""
+    torch.manual_seed(0)
+    w0, grads = torch.randn(5), [torch.randn(5) for _ in range(6)]
+    lrs = [0.1, 0.1, 0.1, 0.01, 0.01, 0.01]
+    p_c, p_t = torch.nn.Parameter(w0.clone()), torch.nn.Parameter(w0.clone())
+    opt_c = CaffeSGD([{'params': [p_c]}], lr=0.1, momentum=0.9, weight_decay=0.01)
+    opt_t = torch.optim.SGD([{'params': [p_t]}], lr=0.1, momentum=0.9, weight_decay=0.01)
+    w, v = w0.clone(), torch.zeros(5)
+    for k, (g, lr) in enumerate(zip(grads, lrs)):
+        for opt, p in ((opt_c, p_c), (opt_t, p_t)):
+            opt.param_groups[0]['lr'] = lr
+            p.grad = g.clone()
+            opt.step()
+        v = 0.9 * v + lr * (g + 0.01 * w)
+        w = w - v
+        assert torch.allclose(p_c.data, w, atol=1e-6)
+        if k < 3:
+            assert torch.allclose(p_c.data, p_t.data, atol=1e-6)
+    assert not torch.allclose(p_c.data, p_t.data, atol=1e-4)  # 降学习率之后两者不同
 
 
 def _varint(n):
@@ -246,8 +273,8 @@ def check_pipeline(tmp):
     feats = np.load(os.path.join(out, 'features', 's1-coralrule-AW-lamstar-seed1.npz'))
     assert feats['tgt_fc7'].shape == (124, 4096) and feats['src_fc8'].shape == (124, 31)
     tvall = load_log(out, 's1-attr-AW-tvall-seed1')['config']
-    assert (tvall['backbone'], tvall['crop'], tvall['lr_schedule'], tvall['test_mirror'], tvall['cache_interp']) == \
-        ('torchvision', 224, 'const', False, 'pil')
+    assert (tvall['backbone'], tvall['crop'], tvall['lr_schedule'], tvall['test_mirror'], tvall['cache_interp'],
+            tvall['optimizer'], tvall['batch_wrap']) == ('torchvision', 224, 'const', False, 'pil', 'torch', False)
     log = load_log(out, 's9-misc-DA-all-seed2')
     assert log['config']['n_src_val'] == 31 and 'src_val_acc' in log['final'] and 'coral_full_conv5' in log['final']
     with open(os.path.join(out, 'stage1_summary.md'), encoding='utf-8') as f:
@@ -260,7 +287,7 @@ def check_pipeline(tmp):
 
 def main():
     for check in (check_covariance, check_gradient, check_augment, check_streams, check_model, check_lr_and_preset,
-                  check_metrics, check_calibration_rounds):
+                  check_caffe_sgd, check_metrics, check_calibration_rounds):
         check()
         print(f'[ok] {check.__name__}', flush=True)
     with tempfile.TemporaryDirectory() as tmp:
