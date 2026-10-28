@@ -1,0 +1,86 @@
+{
+ "AW": {
+  "seed": 1,
+  "ratio_lam1": 1.1031448115410467,
+  "rounds": [
+   {
+    "lam": 1.1031448115410467,
+    "run": "s1-calib-AW-lamstar1-seed1",
+    "cls_over_weighted_coral": 1.0947232947844103
+   }
+  ],
+  "lam_star": 1.1031448115410467,
+  "final_run": "s1-calib-AW-lamstar1-seed1",
+  "accepted": true
+ },
+ "AD": {
+  "seed": 1,
+  "ratio_lam1": 1.1158126082799833,
+  "rounds": [
+   {
+    "lam": 1.1158126082799833,
+    "run": "s1-calib-AD-lamstar1-seed1",
+    "cls_over_weighted_coral": 1.0996908477249883
+   }
+  ],
+  "lam_star": 1.1158126082799833,
+  "final_run": "s1-calib-AD-lamstar1-seed1",
+  "accepted": true
+ },
+ "DA": {
+  "seed": 1,
+  "ratio_lam1": 0.6267669480976044,
+  "rounds": [
+   {
+    "lam": 0.6267669480976044,
+    "run": "s1-calib-DA-lamstar1-seed1",
+    "cls_over_weighted_coral": 0.6139305770332064
+   }
+  ],
+  "lam_star": 0.6267669480976044,
+  "final_run": "s1-calib-DA-lamstar1-seed1",
+  "accepted": true
+ },
+ "DW": {
+  "seed": 1,
+  "ratio_lam1": 0.616311966050765,
+  "rounds": [
+   {
+    "lam": 0.616311966050765,
+    "run": "s1-calib-DW-lamstar1-seed1",
+    "cls_over_weighted_coral": 0.6033988532838044
+   }
+  ],
+  "lam_star": 0.616311966050765,
+  "final_run": "s1-calib-DW-lamstar1-seed1",
+  "accepted": true
+ },
+ "WA": {
+  "seed": 1,
+  "ratio_lam1": 0.6520385872578669,
+  "rounds": [
+   {
+    "lam": 0.6520385872578669,
+    "run": "s1-calib-WA-lamstar1-seed1",
+    "cls_over_weighted_coral": 0.645719303553009
+   }
+  ],
+  "lam_star": 0.6520385872578669,
+  "final_run": "s1-calib-WA-lamstar1-seed1",
+  "accepted": true
+ },
+ "WD": {
+  "seed": 1,
+  "ratio_lam1": 0.658841373949073,
+  "rounds": [
+   {
+    "lam": 0.658841373949073,
+    "run": "s1-calib-WD-lamstar1-seed1",
+    "cls_over_weighted_coral": 0.6484791176918764
+   }
+  ],
+  "lam_star": 0.658841373949073,
+  "final_run": "s1-calib-WD-lamstar1-seed1",
+  "accepted": true
+ }
+}
