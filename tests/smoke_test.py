@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(ROOT, 'tools'))
 
 import convert_caffenet  # noqa: E402
 from coral import data, metrics  # noqa: E402
-from coral.losses import coral_loss, covariance  # noqa: E402
+from coral.losses import coral_loss, covariance, diversity_loss, entropy_loss  # noqa: E402
 from coral.models import CAFFENET_CONV_INDEX, AlexNet, CaffeNet, param_groups  # noqa: E402
 from coral.optim import CaffeSGD  # noqa: E402
 from train import lr_at, parse_args  # noqa: E402
@@ -45,6 +45,19 @@ def check_gradient():
         one = torch.ones(1, n, dtype=torch.float64)
         formula = sign / (d * d * (n - 1)) * (x.t() - (one @ x).t() @ one / n).t() @ diff
         assert torch.allclose(g, formula), (g - formula).abs().max()
+
+
+def check_im_losses():
+    """均匀预测：单样本熵 = log C、多样性项 = −log C（最好）；全部塌到同一类：熵 ≈ 0、多样性项 ≈ 0（最差）。"""
+    c = 31
+    uniform = torch.zeros(8, c)
+    assert torch.isclose(entropy_loss(uniform), torch.tensor(np.log(c), dtype=torch.float32))
+    assert torch.isclose(diversity_loss(uniform), torch.tensor(-np.log(c), dtype=torch.float32), atol=1e-5)
+    collapsed = torch.full((8, c), -50.0)
+    collapsed[:, 0] = 50.0
+    assert entropy_loss(collapsed) < 1e-4 and abs(diversity_loss(collapsed)) < 1e-4
+    spread = torch.full((c, c), -50.0).fill_diagonal_(50.0)  # 每个样本都很确定，且覆盖全部类别：两项都最优
+    assert entropy_loss(spread) < 1e-4 and torch.isclose(diversity_loss(spread), torch.tensor(-np.log(c), dtype=torch.float32), atol=1e-4)
 
 
 def check_augment():
@@ -284,9 +297,23 @@ def check_pipeline(tmp):
     for name in ('stage1_runs.csv', 'figures/fig2_AW.png'):
         assert os.path.exists(os.path.join(out, name)), name
 
+    # 阶段二：信息最大化，复用上面阶段一的基线和 Deep CORAL
+    out2 = os.path.join(tmp, 'results2')
+    run('stage2_improvement/run_improve.py', 'all', '--data_dir', cache, '--out_dir', out2, '--stage1_dir', out,
+        '--tasks', 'AW', '--seeds', '1', '--extra_seeds', '1', *fast)
+    cfg = load_log(out2, 's2-coralim-AW-b0p3-seed1')['config']
+    assert (cfg['lam'], cfg['ent_weight'], cfg['div_weight'], cfg['backbone']) == (0.8, 0.3, 0.3, 'caffenet')
+    assert load_log(out2, 's2-coralent-AW-b0p3-seed1')['config']['div_weight'] == 0.0
+    assert load_log(out2, 's2-im-AW-b0p3-seed1')['history'][-1]['ent_loss'] is not None
+    with open(os.path.join(out2, 'improve_summary.md'), encoding='utf-8') as f:
+        summary = f.read()
+    assert '| A→W |' in summary and 'β = 0.1' in summary and 'β = 1' in summary and '只做熵最小化' in summary
+    assert os.path.exists(os.path.join(out2, 'figures', 'curves.png'))
+
 
 def main():
-    for check in (check_covariance, check_gradient, check_augment, check_streams, check_model, check_lr_and_preset,
+    for check in (check_covariance, check_gradient, check_im_losses, check_augment, check_streams, check_model,
+                  check_lr_and_preset,
                   check_caffe_sgd, check_metrics, check_calibration_rounds):
         check()
         print(f'[ok] {check.__name__}', flush=True)

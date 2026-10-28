@@ -21,7 +21,7 @@ import torch
 import torch.nn.functional as F
 
 from coral import data, metrics
-from coral.losses import coral_loss
+from coral.losses import coral_loss, diversity_loss, entropy_loss
 from coral.models import BACKBONES, LAYERS, build_model, extract_features, param_groups
 from coral.optim import CaffeSGD
 from coral.utils import ROOT, code_version, hardware_info, save_json, set_seed
@@ -53,6 +53,9 @@ def parse_args(argv=None):
     p.add_argument('--momentum', type=float, default=0.9)
     p.add_argument('--weight_decay', type=float, default=5e-4)
     p.add_argument('--lam', type=float, default=0.0, help='CORAL 损失权重，0 即无适应基线')
+    p.add_argument('--ent_weight', type=float, default=0.0, help='目标域单样本预测熵的权重（熵最小化）')
+    p.add_argument('--div_weight', type=float, default=0.0,
+                   help='目标域预测多样性（batch 平均预测的负熵）的权重；与 ent_weight 相等即信息最大化')
     p.add_argument('--align_layers', default='fc8', help='施加 CORAL 的层，逗号分隔，可选 ' + ','.join(LAYERS))
     p.add_argument('--backbone', choices=BACKBONES, default='torchvision',
                    help='caffenet 用 Caffe 预处理（BGR 减均值），torchvision 用 ImageNet 均值方差归一化')
@@ -179,9 +182,10 @@ def main(argv=None):
                 cls_trace += [sig(v) for v in s[:, 0].tolist()]
                 coral_trace += [sig(v) for v in s[:, 1].tolist()]
                 interval = {'cls_loss': float(s[:, 0].mean()), 'coral_loss': float(s[:, 1].mean()),
-                            'src_batch_acc': float(s[:, 2].mean())}
+                            'src_batch_acc': float(s[:, 2].mean()), 'ent_loss': float(s[:, 3].mean()),
+                            'div_loss': float(s[:, 4].mean())}
             else:
-                interval = {'cls_loss': None, 'coral_loss': None, 'src_batch_acc': None}
+                interval = dict.fromkeys(['cls_loss', 'coral_loss', 'src_batch_acc', 'ent_loss', 'div_loss'])
             steps = []
             history.append({'iter': it, 'lam': args.lam, 'lr': lr_at(args, it), **interval, **rec})
             print(f'[{args.name}] it {it:5d} | cls {interval["cls_loss"] or 0:.4f} '
@@ -202,12 +206,17 @@ def main(argv=None):
         out_s, out_t = model(xs_b), model(xt_b)
         loss_cls = F.cross_entropy(out_s['fc8'], ys_b)
         loss_coral = sum(coral_loss(out_s[l], out_t[l]) for l in args.align_layers)
-        loss = loss_cls + args.lam * loss_coral if args.lam else loss_cls
+        loss_ent, loss_div = entropy_loss(out_t['fc8']), diversity_loss(out_t['fc8'])
+        loss = loss_cls
+        for weight, term in ((args.lam, loss_coral), (args.ent_weight, loss_ent), (args.div_weight, loss_div)):
+            if weight:
+                loss = loss + weight * term
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
         steps.append(torch.stack([loss_cls.detach(), loss_coral.detach(),
-                                  (out_s['fc8'].argmax(1) == ys_b).float().mean()]))
+                                  (out_s['fc8'].argmax(1) == ys_b).float().mean(),
+                                  loss_ent.detach(), loss_div.detach()]))
 
     config = dict(vars(args), src_domain=src_name, tgt_domain=tgt_name, n_src_train=len(src_train),
                   n_src_val=len(src_val), n_tgt=len(yt), classes=classes,

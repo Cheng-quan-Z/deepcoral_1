@@ -170,6 +170,38 @@ git push
 
 如果第 10 步还没跑，`lambda_star.json` 不存在，把它从第一条命令里删掉即可。
 
+## 14. 阶段二：改进 1（目标域信息最大化）
+
+需要第 8、9 步的结果已经在 `stage1_reproduction/results/logs` 里（从仓库拉下来的也可以）。先拉取最新代码：
+
+```bash
+git pull
+```
+
+主实验，4 个任务 × 3 个种子 × 2 种方法，共 24 次，每次约 7 分钟：
+
+```bash
+python stage2_improvement/run_improve.py main --data_dir data_cache
+```
+
+第一次运行开始后，看一眼终端输出：每 100 步打印的 `tgt` 应在 0.4–0.7 之间逐步上升，不应出现“NaN / Inf，提前停止”。
+
+β 敏感性（8 次）和多样性项消融（4 次），可选：
+
+```bash
+python stage2_improvement/run_improve.py sensitivity --data_dir data_cache
+python stage2_improvement/run_improve.py ablation --data_dir data_cache
+```
+
+跑完查看 `stage2_improvement/results/improve_summary.md`。上传方法与第 13 步相同：
+
+```bash
+git add -f stage2_improvement/results/logs stage2_improvement/results/improve_summary.md stage2_improvement/results/improve_runs.csv stage2_improvement/results/figures
+git commit -m "Stage 2 results"
+git pull --rebase
+git push
+```
+
 ## 中断与续跑
 
 任何一步中断后，重新运行同一条命令即可，已完成的运行会自动跳过。
