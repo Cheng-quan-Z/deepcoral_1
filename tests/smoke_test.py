@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(ROOT, 'tools'))
 
 import convert_caffenet  # noqa: E402
 from coral import data, metrics  # noqa: E402
-from coral.losses import coral_loss, covariance, diversity_loss, entropy_loss  # noqa: E402
+from coral.losses import ClassConditionalAlignment, coral_loss, covariance, diversity_loss, entropy_loss  # noqa: E402
 from coral.models import CAFFENET_CONV_INDEX, AlexNet, CaffeNet, param_groups  # noqa: E402
 from coral.optim import CaffeSGD  # noqa: E402
 from train import lr_at, parse_args  # noqa: E402
@@ -58,6 +58,36 @@ def check_im_losses():
     assert entropy_loss(collapsed) < 1e-4 and abs(diversity_loss(collapsed)) < 1e-4
     spread = torch.full((c, c), -50.0).fill_diagonal_(50.0)  # 每个样本都很确定，且覆盖全部类别：两项都最优
     assert entropy_loss(spread) < 1e-4 and torch.isclose(diversity_loss(spread), torch.tensor(-np.log(c), dtype=torch.float32), atol=1e-4)
+
+
+def check_class_conditional():
+    dev = torch.device('cpu')
+    torch.manual_seed(0)
+    labels = torch.arange(3).repeat(2)  # 3 类，每类 2 个样本
+    x = torch.randn(6, 5)
+    # 两域完全相同 → 0；每类只有 2 个样本、门槛 4 → 第一次没有类别计入，第二次加上队列里的 2 个才够
+    cc = ClassConditionalAlignment(3, 5, dev, queue_size=8, min_count=4)
+    loss, n = cc(x, labels, x.clone(), labels)
+    assert n == 0 and float(loss) == 0.0
+    loss, n = cc(x, labels, x.clone(), labels)
+    assert n == 3 and float(loss) < 1e-10
+    # 只平移目标域的类均值：均值项 > 0，协方差项 = 0
+    fs, ft = torch.randn(12, 5), torch.randn(12, 5)
+    ys = torch.arange(3).repeat(4)
+    ft_shift = fs + torch.tensor([1.0, 0, 0, 0, 0])
+    for terms, positive in (('mean', True), ('cov', False), ('both', True)):
+        loss, n = ClassConditionalAlignment(3, 5, dev, terms=terms)(fs, ys, ft_shift, ys)
+        assert n == 3 and (float(loss) > 1e-3) == positive, terms
+    # 伪标签为 -1 的目标样本不参与；梯度只回传到当前 batch（队列里的特征已 detach）
+    yt = ys.clone()
+    yt[ys == 2] = -1
+    cc = ClassConditionalAlignment(3, 5, dev)
+    fs_g, ft_g = fs.clone().requires_grad_(), ft.clone().requires_grad_()
+    loss, n = cc(fs_g, ys, ft_g, yt)
+    assert n == 2
+    loss.backward()
+    assert fs_g.grad.abs().sum() > 0 and ft_g.grad[ys == 2].abs().sum() == 0
+    assert all(not q.requires_grad for queues in cc.queues for q in queues)
 
 
 def check_augment():
@@ -310,9 +340,26 @@ def check_pipeline(tmp):
     assert '| A→W |' in summary and 'β = 0.1' in summary and 'β = 1' in summary and '只做熵最小化' in summary
     assert os.path.exists(os.path.join(out2, 'figures', 'curves.png'))
 
+    # 阶段三：类条件 CORAL，复用阶段一、二的结果；假数据只跑 20 步，所以提前到第 5 步启用、降低置信度阈值
+    out3 = os.path.join(tmp, 'results3')
+    run('stage3_class_conditional/run_cc.py', 'all', '--data_dir', cache, '--out_dir', out3, '--stage1_dir', out,
+        '--stage2_dir', out2, '--tasks', 'AW', '--seeds', '1', '--extra_seeds', '1', *fast,
+        '--cc_start', '5', '--cc_threshold', '0.0')
+    log = load_log(out3, 's3-cc-AW-g0p3-seed1')
+    cfg = log['config']
+    assert (cfg['lam'], cfg['ent_weight'], cfg['cc_weight'], cfg['cc_terms']) == (0.8, 0.3, 0.3, 'both')
+    assert log['history'][-1]['cc_classes'] > 0 and log['final']['tgt_conf_frac'] == 1.0
+    assert load_log(out3, 's3-cccov-AW-g0p3-seed1')['config']['cc_terms'] == 'cov'
+    with open(os.path.join(out3, 'cc_summary.md'), encoding='utf-8') as f:
+        summary = f.read()
+    for section in ('| A→W |', '伪标签质量', '只对齐类均值', 'γ = 1'):
+        assert section in summary, section
+    assert os.path.exists(os.path.join(out3, 'figures', 'curves.png'))
+
 
 def main():
-    for check in (check_covariance, check_gradient, check_im_losses, check_augment, check_streams, check_model,
+    for check in (check_covariance, check_gradient, check_im_losses, check_class_conditional, check_augment,
+                  check_streams, check_model,
                   check_lr_and_preset,
                   check_caffe_sgd, check_metrics, check_calibration_rounds):
         check()

@@ -202,6 +202,38 @@ git pull --rebase
 git push
 ```
 
+## 15. 阶段三：改进 2（类条件 CORAL）
+
+需要阶段一（第 8、9 步）和阶段二主实验（第 14 步）的结果已在仓库里。先拉取最新代码：
+
+```bash
+git pull
+```
+
+主实验，4 个任务 × 3 个种子，共 12 次，每次约 7 分钟：
+
+```bash
+python stage3_class_conditional/run_cc.py main --data_dir data_cache
+```
+
+前 600 步和阶段二的 CORAL + IM 一样；从第 600 步起，终端输出不应出现“NaN / Inf，提前停止”。
+
+均值 / 协方差消融（8 次）和 γ 敏感性（8 次），可选：
+
+```bash
+python stage3_class_conditional/run_cc.py ablation --data_dir data_cache
+python stage3_class_conditional/run_cc.py sensitivity --data_dir data_cache
+```
+
+跑完查看 `stage3_class_conditional/results/cc_summary.md`。请直接用下面的命令上传，不要打成 zip：
+
+```bash
+git add -f stage3_class_conditional/results/logs stage3_class_conditional/results/cc_summary.md stage3_class_conditional/results/cc_runs.csv stage3_class_conditional/results/figures
+git commit -m "Stage 3 results"
+git pull --rebase
+git push
+```
+
 ## 中断与续跑
 
 任何一步中断后，重新运行同一条命令即可，已完成的运行会自动跳过。

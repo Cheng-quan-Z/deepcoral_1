@@ -21,7 +21,7 @@ import torch
 import torch.nn.functional as F
 
 from coral import data, metrics
-from coral.losses import coral_loss, diversity_loss, entropy_loss
+from coral.losses import ClassConditionalAlignment, coral_loss, diversity_loss, entropy_loss
 from coral.models import BACKBONES, LAYERS, build_model, extract_features, param_groups
 from coral.optim import CaffeSGD
 from coral.utils import ROOT, code_version, hardware_info, save_json, set_seed
@@ -56,6 +56,13 @@ def parse_args(argv=None):
     p.add_argument('--ent_weight', type=float, default=0.0, help='目标域单样本预测熵的权重（熵最小化）')
     p.add_argument('--div_weight', type=float, default=0.0,
                    help='目标域预测多样性（batch 平均预测的负熵）的权重；与 ent_weight 相等即信息最大化')
+    p.add_argument('--cc_weight', type=float, default=0.0, help='类条件对齐的权重（目标域用高置信度伪标签）')
+    p.add_argument('--cc_terms', choices=['both', 'mean', 'cov'], default='both', help='按类对齐均值、协方差或两者')
+    p.add_argument('--cc_layer', choices=LAYERS, default='fc8')
+    p.add_argument('--cc_start', type=int, default=600, help='从第几步开始启用类条件对齐（之前伪标签不可靠）')
+    p.add_argument('--cc_threshold', type=float, default=0.9, help='伪标签的置信度阈值')
+    p.add_argument('--cc_queue', type=int, default=32, help='每个域、每个类的特征队列长度')
+    p.add_argument('--cc_min', type=int, default=4, help='某类在两个域中至少有多少样本才计入')
     p.add_argument('--align_layers', default='fc8', help='施加 CORAL 的层，逗号分隔，可选 ' + ','.join(LAYERS))
     p.add_argument('--backbone', choices=BACKBONES, default='torchvision',
                    help='caffenet 用 Caffe 预处理（BGR 减均值），torchvision 用 ImageNet 均值方差归一化')
@@ -95,11 +102,12 @@ def lr_at(args, it):
 
 
 @torch.no_grad()
-def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen, mirror_gen=None):
+def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen, mirror_gen=None, conf_threshold=0.9):
     """评估模式下（关闭 Dropout、中心裁剪）提取全量特征并计算各项指标。
 
     eval_sets: {'src': (bank, idx, labels), 'tgt': ..., 可选 'src_val': ...}。目标标签只在这里被读取。
-    mirror_gen 不为 None 时测试图像随机水平翻转。
+    mirror_gen 不为 None 时测试图像随机水平翻转。tgt_conf_frac / tgt_conf_acc 为置信度不低于 conf_threshold
+    的目标样本占比及其准确率（即伪标签准确率，仅用于分析）。
     返回 (指标字典, 各集合的特征, 目标域混淆矩阵)。特征出现 NaN / Inf 时只返回准确率并标记 diverged。
     """
     feats = {k: extract_features(model, bank, idx, layers, mirror_gen=mirror_gen)
@@ -118,6 +126,10 @@ def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen,
     rec['tgt_nll'] = float(F.cross_entropy(logits, yt))
     rec['tgt_entropy'] = metrics.mean_entropy(logits)
     rec['tgt_snd'] = metrics.snd(logits)
+    conf, pred = logits.softmax(1).max(1)
+    confident = conf >= conf_threshold
+    rec['tgt_conf_frac'] = float(confident.float().mean())
+    rec['tgt_conf_acc'] = float((pred[confident] == yt[confident]).float().mean()) if confident.any() else None
     for l in layers:
         rec[f'coral_full_{l}'] = metrics.coral_distance(fs[l], ft[l])
     for l in dict.fromkeys(['fc8'] + align_layers):
@@ -171,21 +183,25 @@ def main(argv=None):
     sgd = CaffeSGD if args.optimizer == 'caffe' else torch.optim.SGD
     opt = sgd(param_groups(model, args.lr, args.weight_decay), lr=args.lr, momentum=args.momentum)
 
+    # 维度直接按层名给出：不做额外前向，免得多消耗 Dropout 随机数、破坏与同种子其他运行的配对
+    cc_dim = {'conv5': 256, 'fc6': 4096, 'fc7': 4096, 'fc8': len(classes)}[args.cc_layer]
+    cc_align = ClassConditionalAlignment(len(classes), cc_dim, device, args.cc_queue, args.cc_min, args.cc_terms) \
+        if args.cc_weight else None
+    step_keys = ['cls_loss', 'coral_loss', 'src_batch_acc', 'ent_loss', 'div_loss', 'cc_loss', 'cc_classes',
+                 'tgt_batch_conf']
     history, cls_trace, coral_trace, steps = [], [], [], []
     t0 = time.time()
     for it in range(args.iters + 1):
         if it % args.eval_every == 0 or it == args.iters:
-            rec, feats, cm = evaluate(model, eval_sets, layers, args.align_layers,
-                                      args.batch_size, args.eval_batches, gens[2], mirror_gen)
+            rec, feats, cm = evaluate(model, eval_sets, layers, args.align_layers, args.batch_size,
+                                      args.eval_batches, gens[2], mirror_gen, args.cc_threshold)
             if steps:
                 s = torch.stack(steps).cpu()
                 cls_trace += [sig(v) for v in s[:, 0].tolist()]
                 coral_trace += [sig(v) for v in s[:, 1].tolist()]
-                interval = {'cls_loss': float(s[:, 0].mean()), 'coral_loss': float(s[:, 1].mean()),
-                            'src_batch_acc': float(s[:, 2].mean()), 'ent_loss': float(s[:, 3].mean()),
-                            'div_loss': float(s[:, 4].mean())}
+                interval = {k: float(s[:, i].mean()) for i, k in enumerate(step_keys)}
             else:
-                interval = dict.fromkeys(['cls_loss', 'coral_loss', 'src_batch_acc', 'ent_loss', 'div_loss'])
+                interval = dict.fromkeys(step_keys)
             steps = []
             history.append({'iter': it, 'lam': args.lam, 'lr': lr_at(args, it), **interval, **rec})
             print(f'[{args.name}] it {it:5d} | cls {interval["cls_loss"] or 0:.4f} '
@@ -207,8 +223,15 @@ def main(argv=None):
         loss_cls = F.cross_entropy(out_s['fc8'], ys_b)
         loss_coral = sum(coral_loss(out_s[l], out_t[l]) for l in args.align_layers)
         loss_ent, loss_div = entropy_loss(out_t['fc8']), diversity_loss(out_t['fc8'])
+        # 目标域伪标签：当前 batch 自身的预测，只保留置信度不低于阈值的样本，其余记为 -1
+        conf, pred = out_t['fc8'].detach().softmax(1).max(1)
+        pseudo = torch.where(conf >= args.cc_threshold, pred, torch.full_like(pred, -1))
+        loss_cc, cc_classes = loss_cls.new_zeros(()), 0
+        if cc_align is not None and it >= args.cc_start:
+            loss_cc, cc_classes = cc_align(out_s[args.cc_layer], ys_b, out_t[args.cc_layer], pseudo)
         loss = loss_cls
-        for weight, term in ((args.lam, loss_coral), (args.ent_weight, loss_ent), (args.div_weight, loss_div)):
+        for weight, term in ((args.lam, loss_coral), (args.ent_weight, loss_ent), (args.div_weight, loss_div),
+                             (args.cc_weight, loss_cc)):
             if weight:
                 loss = loss + weight * term
         opt.zero_grad(set_to_none=True)
@@ -216,7 +239,8 @@ def main(argv=None):
         opt.step()
         steps.append(torch.stack([loss_cls.detach(), loss_coral.detach(),
                                   (out_s['fc8'].argmax(1) == ys_b).float().mean(),
-                                  loss_ent.detach(), loss_div.detach()]))
+                                  loss_ent.detach(), loss_div.detach(), loss_cc.detach(),
+                                  loss_cls.new_tensor(float(cc_classes)), (pseudo >= 0).float().mean()]))
 
     config = dict(vars(args), src_domain=src_name, tgt_domain=tgt_name, n_src_train=len(src_train),
                   n_src_val=len(src_val), n_tgt=len(yt), classes=classes,
