@@ -263,6 +263,14 @@ git pull --rebase
 git push
 ```
 
+## 17. 离线分析（不需要 GPU）
+
+只读各阶段已上传的日志，几秒钟出结果，见 `offline_analysis/results/offline_summary.md`：
+
+```bash
+python offline_analysis/offline_analysis.py
+```
+
 ## 中断与续跑
 
 任何一步中断后，重新运行同一条命令即可，已完成的运行会自动跳过。

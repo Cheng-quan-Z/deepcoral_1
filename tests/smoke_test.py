@@ -389,6 +389,16 @@ def check_pipeline(tmp):
         assert section in summary, section
     assert os.path.exists(os.path.join(out4, 'figures', 'curves.png'))
 
+    # 离线分析：只读上面各阶段的日志
+    out5 = os.path.join(tmp, 'offline')
+    run('offline_analysis/offline_analysis.py', '--out_dir', out5, '--log_dirs',
+        *[os.path.join(d, 'logs') for d in (out, out2, out3, out4)])
+    with open(os.path.join(out5, 'offline_summary.md'), encoding='utf-8') as f:
+        summary = f.read()
+    for section in ('选点规则', '无监督选 λ', '无监督选方法', 'batch 上对齐了', '有效秩'):
+        assert section in summary, section
+    assert os.path.exists(os.path.join(out5, 'figures', 'erank_ece.png'))
+
 
 def main():
     for check in (check_covariance, check_gradient, check_im_losses, check_class_conditional, check_centroid_labels,
