@@ -19,11 +19,13 @@ def set_seed(seed):
 
 
 def code_version():
-    """coral/*.py 与 train.py 内容的 md5 前 12 位，用来标识产生某条日志的代码版本。"""
+    """coral/*.py 与 train.py 内容的 md5 前 12 位，用来标识产生某条日志的代码版本。
+    换行符统一成 LF 再计算，Windows 上 Git 检出为 CRLF 时版本号不变。
+    """
     h = hashlib.md5()
     for path in sorted(glob.glob(os.path.join(ROOT, 'coral', '*.py'))) + [os.path.join(ROOT, 'train.py')]:
         with open(path, 'rb') as f:
-            h.update(f.read())
+            h.update(f.read().replace(b'\r\n', b'\n'))
     return h.hexdigest()[:12]
 
 
