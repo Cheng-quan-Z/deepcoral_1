@@ -10,6 +10,7 @@ import tempfile
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +22,7 @@ from coral import data, metrics  # noqa: E402
 from coral.losses import ClassConditionalAlignment, coral_loss, covariance, diversity_loss, entropy_loss  # noqa: E402
 from coral.models import CAFFENET_CONV_INDEX, AlexNet, CaffeNet, param_groups  # noqa: E402
 from coral.optim import CaffeSGD  # noqa: E402
+from coral.pseudo import centroid_labels  # noqa: E402
 from train import lr_at, parse_args  # noqa: E402
 
 
@@ -88,6 +90,20 @@ def check_class_conditional():
     loss.backward()
     assert fs_g.grad.abs().sum() > 0 and ft_g.grad[ys == 2].abs().sum() == 0
     assert all(not q.requires_grad for queues in cc.queues for q in queues)
+
+
+def check_centroid_labels():
+    """特征按类聚得很开、预测却有 30% 是错的：类中心伪标签应把所有样本分对。
+    第 4 类没有任何样本：不应出现 NaN，也不应有样本被分到它。"""
+    torch.manual_seed(0)
+    y = torch.arange(3).repeat(40)
+    feats = 5 * F.one_hot(y, 10).float() + 0.3 * torch.randn(120, 10)
+    wrong = torch.rand(120) < 0.3
+    pred = torch.where(wrong, (y + 1) % 3, y)
+    logits = 2 * F.one_hot(pred, 4).float()
+    labels = centroid_labels(feats, logits)
+    assert (pred == y).float().mean() < 0.8 and torch.equal(labels, y)
+    assert labels.max() < 3
 
 
 def check_augment():
@@ -356,9 +372,27 @@ def check_pipeline(tmp):
         assert section in summary, section
     assert os.path.exists(os.path.join(out3, 'figures', 'curves.png'))
 
+    # 阶段四：类中心伪标签，复用阶段一到三的结果
+    out4 = os.path.join(tmp, 'results4')
+    run('stage4_pseudo_labels/run_pl.py', 'all', '--data_dir', cache, '--out_dir', out4, '--stage1_dir', out,
+        '--stage2_dir', out2, '--stage3_dir', out3, '--tasks', 'AW', '--seeds', '1', '--extra_seeds', '1', *fast,
+        '--cc_start', '5')
+    log = load_log(out4, 's4-cc-AW-cent-seed1')
+    assert log['config']['pl_source'] == 'centroid' and log['history'][-1]['tgt_batch_conf'] == 1.0
+    assert log['history'][-1]['cc_classes'] > 0 and 0 <= log['final']['tgt_pl_acc'] <= 1
+    st = load_log(out4, 's4-ccst-AW-cent-seed1')
+    assert st['config']['st_weight'] == 0.3 and st['history'][-1]['st_loss'] > 0
+    assert load_log(out4, 's4-cc-AW-agree-seed1')['config']['pl_source'] == 'agree'
+    with open(os.path.join(out4, 'pl_summary.md'), encoding='utf-8') as f:
+        summary = f.read()
+    for section in ('| A→W |', '伪标签质量', '一致样本', '自训练'):
+        assert section in summary, section
+    assert os.path.exists(os.path.join(out4, 'figures', 'curves.png'))
+
 
 def main():
-    for check in (check_covariance, check_gradient, check_im_losses, check_class_conditional, check_augment,
+    for check in (check_covariance, check_gradient, check_im_losses, check_class_conditional, check_centroid_labels,
+                  check_augment,
                   check_streams, check_model,
                   check_lr_and_preset,
                   check_caffe_sgd, check_metrics, check_calibration_rounds):

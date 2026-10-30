@@ -234,6 +234,35 @@ git pull --rebase
 git push
 ```
 
+## 16. 阶段四：改进 3（类中心伪标签）
+
+需要阶段一、二、三的结果已在仓库里。先拉取最新代码：
+
+```bash
+git pull
+```
+
+主实验，4 个任务 × 3 个种子，共 12 次，每次约 8 分钟：
+
+```bash
+python stage4_pseudo_labels/run_pl.py main --data_dir data_cache
+```
+
+消融（一致样本、加自训练），共 8 次，可选：
+
+```bash
+python stage4_pseudo_labels/run_pl.py ablation --data_dir data_cache
+```
+
+跑完查看 `stage4_pseudo_labels/results/pl_summary.md`。请直接用下面的命令上传，不要打成 zip：
+
+```bash
+git add -f stage4_pseudo_labels/results/logs stage4_pseudo_labels/results/pl_summary.md stage4_pseudo_labels/results/pl_runs.csv stage4_pseudo_labels/results/figures
+git commit -m "Stage 4 results"
+git pull --rebase
+git push
+```
+
 ## 中断与续跑
 
 任何一步中断后，重新运行同一条命令即可，已完成的运行会自动跳过。

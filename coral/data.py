@@ -164,4 +164,9 @@ class UnlabeledStream(_Stream):
         self.bank = bank
 
     def next(self):
-        return self.bank.augment(self._next_idx(), self.gen)
+        return self.next_indexed()[0]
+
+    def next_indexed(self):
+        """返回 (图像, 样本编号)。编号用来查训练中自己算出的伪标签，不是真实标签。"""
+        idx = self._next_idx()
+        return self.bank.augment(idx, self.gen), idx

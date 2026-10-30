@@ -24,6 +24,7 @@ from coral import data, metrics
 from coral.losses import ClassConditionalAlignment, coral_loss, diversity_loss, entropy_loss
 from coral.models import BACKBONES, LAYERS, build_model, extract_features, param_groups
 from coral.optim import CaffeSGD
+from coral.pseudo import centroid_labels
 from coral.utils import ROOT, code_version, hardware_info, save_json, set_seed
 
 PRESETS = {'caffe': dict(backbone='caffenet', crop=227, lr_schedule='step', optimizer='caffe', batch_wrap=True,
@@ -59,8 +60,14 @@ def parse_args(argv=None):
     p.add_argument('--cc_weight', type=float, default=0.0, help='类条件对齐的权重（目标域用高置信度伪标签）')
     p.add_argument('--cc_terms', choices=['both', 'mean', 'cov'], default='both', help='按类对齐均值、协方差或两者')
     p.add_argument('--cc_layer', choices=LAYERS, default='fc8')
-    p.add_argument('--cc_start', type=int, default=600, help='从第几步开始启用类条件对齐（之前伪标签不可靠）')
-    p.add_argument('--cc_threshold', type=float, default=0.9, help='伪标签的置信度阈值')
+    p.add_argument('--cc_start', type=int, default=600,
+                   help='从第几步开始启用用到伪标签的项（类条件对齐、自训练），之前伪标签不可靠')
+    p.add_argument('--cc_threshold', type=float, default=0.9, help='pl_source=pred 时伪标签的置信度阈值')
+    p.add_argument('--pl_source', choices=['pred', 'centroid', 'agree'], default='pred',
+                   help='目标域伪标签来源：pred 为当前 batch 预测中置信度 ≥ cc_threshold 的样本；centroid 为特征空间'
+                        '最近类中心（每次评估时用全部目标特征重算）；agree 为只保留类中心标签与预测一致的样本')
+    p.add_argument('--pl_layer', choices=LAYERS, default='fc7', help='类中心伪标签所用的特征层')
+    p.add_argument('--st_weight', type=float, default=0.0, help='自训练：目标样本对伪标签的交叉熵权重')
     p.add_argument('--cc_queue', type=int, default=32, help='每个域、每个类的特征队列长度')
     p.add_argument('--cc_min', type=int, default=4, help='某类在两个域中至少有多少样本才计入')
     p.add_argument('--align_layers', default='fc8', help='施加 CORAL 的层，逗号分隔，可选 ' + ','.join(LAYERS))
@@ -102,13 +109,17 @@ def lr_at(args, it):
 
 
 @torch.no_grad()
-def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen, mirror_gen=None, conf_threshold=0.9):
+def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen, mirror_gen=None, conf_threshold=0.9,
+             pl_layer='fc7'):
     """评估模式下（关闭 Dropout、中心裁剪）提取全量特征并计算各项指标。
 
     eval_sets: {'src': (bank, idx, labels), 'tgt': ..., 可选 'src_val': ...}。目标标签只在这里被读取。
-    mirror_gen 不为 None 时测试图像随机水平翻转。tgt_conf_frac / tgt_conf_acc 为置信度不低于 conf_threshold
-    的目标样本占比及其准确率（即伪标签准确率，仅用于分析）。
-    返回 (指标字典, 各集合的特征, 目标域混淆矩阵)。特征出现 NaN / Inf 时只返回准确率并标记 diverged。
+    mirror_gen 不为 None 时测试图像随机水平翻转。以下伪标签指标要用目标标签，仅用于分析：
+      tgt_conf_frac / tgt_conf_acc：预测置信度 ≥ conf_threshold 的目标样本占比及其准确率；
+      tgt_pl_acc：类中心伪标签（pl_layer 特征）在全部目标样本上的准确率；
+      tgt_pl_agree_frac / tgt_pl_agree_acc：类中心伪标签与预测一致的样本占比及其准确率。
+    返回 (指标字典, 各集合的特征, 目标域混淆矩阵, 类中心伪标签)。类中心伪标签只由特征和预测算出，没有用标签。
+    特征出现 NaN / Inf 时只返回准确率并标记 diverged，伪标签为 None。
     """
     feats = {k: extract_features(model, bank, idx, layers, mirror_gen=mirror_gen)
              for k, (bank, idx, _) in eval_sets.items()}
@@ -121,7 +132,7 @@ def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen,
     rec['tgt_bal_acc'] = metrics.balanced_accuracy(cm)
     rec['diverged'] = not all(bool(torch.isfinite(v).all()) for f in feats.values() for v in f.values())
     if rec['diverged']:
-        return rec, feats, cm
+        return rec, feats, cm, None
     rec['tgt_ece'] = metrics.ece(logits.softmax(1), yt)
     rec['tgt_nll'] = float(F.cross_entropy(logits, yt))
     rec['tgt_entropy'] = metrics.mean_entropy(logits)
@@ -130,6 +141,11 @@ def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen,
     confident = conf >= conf_threshold
     rec['tgt_conf_frac'] = float(confident.float().mean())
     rec['tgt_conf_acc'] = float((pred[confident] == yt[confident]).float().mean()) if confident.any() else None
+    centroid = centroid_labels(ft[pl_layer], logits)
+    agree = centroid == pred
+    rec['tgt_pl_acc'] = float((centroid == yt).float().mean())
+    rec['tgt_pl_agree_frac'] = float(agree.float().mean())
+    rec['tgt_pl_agree_acc'] = float((pred[agree] == yt[agree]).float().mean()) if agree.any() else None
     for l in layers:
         rec[f'coral_full_{l}'] = metrics.coral_distance(fs[l], ft[l])
     for l in dict.fromkeys(['fc8'] + align_layers):
@@ -137,7 +153,7 @@ def evaluate(model, eval_sets, layers, align_layers, batch_size, n_batches, gen,
     for l in ('fc7', 'fc8'):
         rec[f'erank_{l}_src'] = metrics.effective_rank(fs[l])
         rec[f'erank_{l}_tgt'] = metrics.effective_rank(ft[l])
-    return rec, feats, cm
+    return rec, feats, cm, centroid
 
 
 def sig(v):
@@ -177,7 +193,7 @@ def main(argv=None):
     eval_sets = {'src': eval_set(src_bank, src_train, ys), 'tgt': eval_set(tgt_bank, np.arange(len(yt)), yt)}
     if len(src_val):
         eval_sets['src_val'] = eval_set(src_bank, src_val, ys)
-    layers = [l for l in LAYERS if l in {'fc7', 'fc8', *args.align_layers}]
+    layers = [l for l in LAYERS if l in {'fc7', 'fc8', args.pl_layer, *args.align_layers}]
 
     model = build_model(args.backbone, len(classes), not args.no_pretrained, args.caffenet_weights).to(device)
     sgd = CaffeSGD if args.optimizer == 'caffe' else torch.optim.SGD
@@ -188,13 +204,17 @@ def main(argv=None):
     cc_align = ClassConditionalAlignment(len(classes), cc_dim, device, args.cc_queue, args.cc_min, args.cc_terms) \
         if args.cc_weight else None
     step_keys = ['cls_loss', 'coral_loss', 'src_batch_acc', 'ent_loss', 'div_loss', 'cc_loss', 'cc_classes',
-                 'tgt_batch_conf']
+                 'tgt_batch_conf', 'st_loss']
     history, cls_trace, coral_trace, steps = [], [], [], []
+    tgt_pl = None  # 全部目标样本的伪标签（按样本编号），每次评估时用类中心重算；-1 表示不参与
     t0 = time.time()
     for it in range(args.iters + 1):
         if it % args.eval_every == 0 or it == args.iters:
-            rec, feats, cm = evaluate(model, eval_sets, layers, args.align_layers, args.batch_size,
-                                      args.eval_batches, gens[2], mirror_gen, args.cc_threshold)
+            rec, feats, cm, centroid = evaluate(model, eval_sets, layers, args.align_layers, args.batch_size,
+                                                args.eval_batches, gens[2], mirror_gen, args.cc_threshold, args.pl_layer)
+            if centroid is not None and args.pl_source != 'pred':
+                agree = centroid == feats['tgt']['fc8'].argmax(1)
+                tgt_pl = centroid if args.pl_source == 'centroid' else torch.where(agree, centroid, -1)
             if steps:
                 s = torch.stack(steps).cpu()
                 cls_trace += [sig(v) for v in s[:, 0].tolist()]
@@ -218,20 +238,27 @@ def main(argv=None):
         for g in opt.param_groups:
             g['lr'] = lr * g['lr_mult']
         xs_b, ys_b = src_stream.next()
-        xt_b = tgt_stream.next()
+        xt_b, xt_idx = tgt_stream.next_indexed()
         out_s, out_t = model(xs_b), model(xt_b)
         loss_cls = F.cross_entropy(out_s['fc8'], ys_b)
         loss_coral = sum(coral_loss(out_s[l], out_t[l]) for l in args.align_layers)
         loss_ent, loss_div = entropy_loss(out_t['fc8']), diversity_loss(out_t['fc8'])
-        # 目标域伪标签：当前 batch 自身的预测，只保留置信度不低于阈值的样本，其余记为 -1
-        conf, pred = out_t['fc8'].detach().softmax(1).max(1)
-        pseudo = torch.where(conf >= args.cc_threshold, pred, torch.full_like(pred, -1))
-        loss_cc, cc_classes = loss_cls.new_zeros(()), 0
-        if cc_align is not None and it >= args.cc_start:
-            loss_cc, cc_classes = cc_align(out_s[args.cc_layer], ys_b, out_t[args.cc_layer], pseudo)
+        # 目标域伪标签（-1 表示不参与）。pred：当前 batch 自身预测中置信度不低于阈值的样本；
+        # centroid / agree：最近一次评估时算出的类中心伪标签，按样本编号查表
+        if args.pl_source == 'pred':
+            conf, pred = out_t['fc8'].detach().softmax(1).max(1)
+            pseudo = torch.where(conf >= args.cc_threshold, pred, torch.full_like(pred, -1))
+        else:
+            pseudo = tgt_pl[xt_idx.to(device)]
+        loss_cc, cc_classes, loss_st = loss_cls.new_zeros(()), 0, loss_cls.new_zeros(())
+        if it >= args.cc_start:
+            if cc_align is not None:
+                loss_cc, cc_classes = cc_align(out_s[args.cc_layer], ys_b, out_t[args.cc_layer], pseudo)
+            if args.st_weight and (pseudo >= 0).any():
+                loss_st = F.cross_entropy(out_t['fc8'][pseudo >= 0], pseudo[pseudo >= 0])
         loss = loss_cls
         for weight, term in ((args.lam, loss_coral), (args.ent_weight, loss_ent), (args.div_weight, loss_div),
-                             (args.cc_weight, loss_cc)):
+                             (args.cc_weight, loss_cc), (args.st_weight, loss_st)):
             if weight:
                 loss = loss + weight * term
         opt.zero_grad(set_to_none=True)
@@ -240,7 +267,8 @@ def main(argv=None):
         steps.append(torch.stack([loss_cls.detach(), loss_coral.detach(),
                                   (out_s['fc8'].argmax(1) == ys_b).float().mean(),
                                   loss_ent.detach(), loss_div.detach(), loss_cc.detach(),
-                                  loss_cls.new_tensor(float(cc_classes)), (pseudo >= 0).float().mean()]))
+                                  loss_cls.new_tensor(float(cc_classes)), (pseudo >= 0).float().mean(),
+                                  loss_st.detach()]))
 
     config = dict(vars(args), src_domain=src_name, tgt_domain=tgt_name, n_src_train=len(src_train),
                   n_src_val=len(src_val), n_tgt=len(yt), classes=classes,
