@@ -1,0 +1,669 @@
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 1 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AW-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AW-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0365 | 16s
+[s3-cc-AW-g0p3-seed1] it   100 | cls 0.8111 coral 1.717e-01 | src 0.9624 tgt 0.7031 | 39s
+[s3-cc-AW-g0p3-seed1] it   200 | cls 0.2508 coral 1.462e-01 | src 0.9965 tgt 0.7472 | 59s
+[s3-cc-AW-g0p3-seed1] it   300 | cls 0.1365 coral 1.303e-01 | src 0.9996 tgt 0.7547 | 78s
+[s3-cc-AW-g0p3-seed1] it   400 | cls 0.0937 coral 1.168e-01 | src 0.9996 tgt 0.7535 | 98s
+[s3-cc-AW-g0p3-seed1] it   500 | cls 0.0750 coral 1.073e-01 | src 0.9996 tgt 0.7547 | 117s
+[s3-cc-AW-g0p3-seed1] it   600 | cls 0.0611 coral 1.038e-01 | src 1.0000 tgt 0.7560 | 137s
+[s3-cc-AW-g0p3-seed1] it   700 | cls 0.0577 coral 9.829e-02 | src 1.0000 tgt 0.7535 | 161s
+[s3-cc-AW-g0p3-seed1] it   800 | cls 0.0573 coral 9.736e-02 | src 1.0000 tgt 0.7535 | 186s
+[s3-cc-AW-g0p3-seed1] it   900 | cls 0.0536 coral 9.611e-02 | src 1.0000 tgt 0.7522 | 210s
+[s3-cc-AW-g0p3-seed1] it  1000 | cls 0.0511 coral 9.406e-02 | src 1.0000 tgt 0.7535 | 235s
+[s3-cc-AW-g0p3-seed1] it  1100 | cls 0.0538 coral 9.374e-02 | src 1.0000 tgt 0.7522 | 260s
+[s3-cc-AW-g0p3-seed1] it  1200 | cls 0.0525 coral 9.228e-02 | src 1.0000 tgt 0.7522 | 284s
+[s3-cc-AW-g0p3-seed1] it  1300 | cls 0.0529 coral 9.236e-02 | src 1.0000 tgt 0.7522 | 309s
+[s3-cc-AW-g0p3-seed1] it  1400 | cls 0.0514 coral 9.344e-02 | src 1.0000 tgt 0.7522 | 334s
+[s3-cc-AW-g0p3-seed1] it  1500 | cls 0.0491 coral 9.357e-02 | src 1.0000 tgt 0.7535 | 358s
+[s3-cc-AW-g0p3-seed1] it  1600 | cls 0.0536 coral 9.594e-02 | src 1.0000 tgt 0.7535 | 383s
+[s3-cc-AW-g0p3-seed1] it  1700 | cls 0.0521 coral 9.446e-02 | src 1.0000 tgt 0.7535 | 407s
+[s3-cc-AW-g0p3-seed1] it  1800 | cls 0.0522 coral 9.339e-02 | src 1.0000 tgt 0.7522 | 432s
+[s3-cc-AW-g0p3-seed1] it  1900 | cls 0.0518 coral 9.446e-02 | src 1.0000 tgt 0.7522 | 457s
+[s3-cc-AW-g0p3-seed1] it  2000 | cls 0.0519 coral 9.265e-02 | src 1.0000 tgt 0.7522 | 481s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 2 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AW-g0p3-seed2 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AW-g0p3-seed2] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0266 tgt 0.0478 | 15s
+[s3-cc-AW-g0p3-seed2] it   100 | cls 0.7989 coral 1.722e-01 | src 0.9684 tgt 0.7371 | 38s
+[s3-cc-AW-g0p3-seed2] it   200 | cls 0.2473 coral 1.447e-01 | src 0.9957 tgt 0.7648 | 58s
+[s3-cc-AW-g0p3-seed2] it   300 | cls 0.1398 coral 1.305e-01 | src 0.9996 tgt 0.7635 | 77s
+[s3-cc-AW-g0p3-seed2] it   400 | cls 0.0974 coral 1.161e-01 | src 1.0000 tgt 0.7673 | 97s
+[s3-cc-AW-g0p3-seed2] it   500 | cls 0.0722 coral 1.073e-01 | src 0.9996 tgt 0.7610 | 116s
+[s3-cc-AW-g0p3-seed2] it   600 | cls 0.0604 coral 1.046e-01 | src 1.0000 tgt 0.7623 | 136s
+[s3-cc-AW-g0p3-seed2] it   700 | cls 0.0559 coral 9.773e-02 | src 1.0000 tgt 0.7648 | 161s
+[s3-cc-AW-g0p3-seed2] it   800 | cls 0.0568 coral 9.615e-02 | src 1.0000 tgt 0.7597 | 185s
+[s3-cc-AW-g0p3-seed2] it   900 | cls 0.0546 coral 9.615e-02 | src 1.0000 tgt 0.7635 | 210s
+[s3-cc-AW-g0p3-seed2] it  1000 | cls 0.0526 coral 9.653e-02 | src 1.0000 tgt 0.7660 | 234s
+[s3-cc-AW-g0p3-seed2] it  1100 | cls 0.0515 coral 9.045e-02 | src 1.0000 tgt 0.7648 | 259s
+[s3-cc-AW-g0p3-seed2] it  1200 | cls 0.0521 coral 9.517e-02 | src 1.0000 tgt 0.7648 | 284s
+[s3-cc-AW-g0p3-seed2] it  1300 | cls 0.0532 coral 9.320e-02 | src 1.0000 tgt 0.7623 | 308s
+[s3-cc-AW-g0p3-seed2] it  1400 | cls 0.0508 coral 9.287e-02 | src 1.0000 tgt 0.7623 | 333s
+[s3-cc-AW-g0p3-seed2] it  1500 | cls 0.0511 coral 9.437e-02 | src 1.0000 tgt 0.7648 | 358s
+[s3-cc-AW-g0p3-seed2] it  1600 | cls 0.0496 coral 9.336e-02 | src 1.0000 tgt 0.7648 | 382s
+[s3-cc-AW-g0p3-seed2] it  1700 | cls 0.0508 coral 9.465e-02 | src 1.0000 tgt 0.7597 | 407s
+[s3-cc-AW-g0p3-seed2] it  1800 | cls 0.0488 coral 9.370e-02 | src 1.0000 tgt 0.7597 | 432s
+[s3-cc-AW-g0p3-seed2] it  1900 | cls 0.0499 coral 9.398e-02 | src 1.0000 tgt 0.7623 | 456s
+[s3-cc-AW-g0p3-seed2] it  2000 | cls 0.0498 coral 9.545e-02 | src 1.0000 tgt 0.7648 | 481s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 3 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AW-g0p3-seed3 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AW-g0p3-seed3] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0160 tgt 0.0113 | 15s
+[s3-cc-AW-g0p3-seed3] it   100 | cls 0.8017 coral 1.730e-01 | src 0.9727 tgt 0.7220 | 39s
+[s3-cc-AW-g0p3-seed3] it   200 | cls 0.2561 coral 1.457e-01 | src 0.9972 tgt 0.7434 | 58s
+[s3-cc-AW-g0p3-seed3] it   300 | cls 0.1373 coral 1.301e-01 | src 1.0000 tgt 0.7497 | 78s
+[s3-cc-AW-g0p3-seed3] it   400 | cls 0.0917 coral 1.165e-01 | src 0.9993 tgt 0.7535 | 97s
+[s3-cc-AW-g0p3-seed3] it   500 | cls 0.0730 coral 1.072e-01 | src 1.0000 tgt 0.7547 | 117s
+[s3-cc-AW-g0p3-seed3] it   600 | cls 0.0614 coral 1.017e-01 | src 1.0000 tgt 0.7560 | 136s
+[s3-cc-AW-g0p3-seed3] it   700 | cls 0.0594 coral 9.650e-02 | src 1.0000 tgt 0.7560 | 161s
+[s3-cc-AW-g0p3-seed3] it   800 | cls 0.0534 coral 9.704e-02 | src 1.0000 tgt 0.7572 | 185s
+[s3-cc-AW-g0p3-seed3] it   900 | cls 0.0531 coral 9.447e-02 | src 1.0000 tgt 0.7560 | 210s
+[s3-cc-AW-g0p3-seed3] it  1000 | cls 0.0541 coral 9.320e-02 | src 1.0000 tgt 0.7572 | 234s
+[s3-cc-AW-g0p3-seed3] it  1100 | cls 0.0511 coral 9.339e-02 | src 1.0000 tgt 0.7547 | 259s
+[s3-cc-AW-g0p3-seed3] it  1200 | cls 0.0501 coral 9.228e-02 | src 1.0000 tgt 0.7560 | 284s
+[s3-cc-AW-g0p3-seed3] it  1300 | cls 0.0494 coral 9.208e-02 | src 1.0000 tgt 0.7560 | 308s
+[s3-cc-AW-g0p3-seed3] it  1400 | cls 0.0511 coral 9.444e-02 | src 1.0000 tgt 0.7547 | 332s
+[s3-cc-AW-g0p3-seed3] it  1500 | cls 0.0514 coral 9.407e-02 | src 1.0000 tgt 0.7560 | 358s
+[s3-cc-AW-g0p3-seed3] it  1600 | cls 0.0505 coral 9.069e-02 | src 1.0000 tgt 0.7572 | 383s
+[s3-cc-AW-g0p3-seed3] it  1700 | cls 0.0506 coral 9.377e-02 | src 1.0000 tgt 0.7572 | 408s
+[s3-cc-AW-g0p3-seed3] it  1800 | cls 0.0506 coral 9.178e-02 | src 1.0000 tgt 0.7560 | 433s
+[s3-cc-AW-g0p3-seed3] it  1900 | cls 0.0517 coral 9.278e-02 | src 1.0000 tgt 0.7572 | 458s
+[s3-cc-AW-g0p3-seed3] it  2000 | cls 0.0515 coral 9.277e-02 | src 1.0000 tgt 0.7560 | 482s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 1 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AD-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AD-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0261 | 15s
+[s3-cc-AD-g0p3-seed1] it   100 | cls 0.7964 coral 8.707e-01 | src 0.9634 tgt 0.7048 | 39s
+[s3-cc-AD-g0p3-seed1] it   200 | cls 0.2119 coral 8.233e-01 | src 0.9982 tgt 0.7068 | 58s
+[s3-cc-AD-g0p3-seed1] it   300 | cls 0.1058 coral 7.591e-01 | src 1.0000 tgt 0.7149 | 77s
+[s3-cc-AD-g0p3-seed1] it   400 | cls 0.0621 coral 6.633e-01 | src 1.0000 tgt 0.7229 | 97s
+[s3-cc-AD-g0p3-seed1] it   500 | cls 0.0475 coral 6.074e-01 | src 1.0000 tgt 0.7309 | 116s
+[s3-cc-AD-g0p3-seed1] it   600 | cls 0.0362 coral 5.554e-01 | src 1.0000 tgt 0.7289 | 136s
+[s3-cc-AD-g0p3-seed1] it   700 | cls 0.0326 coral 4.625e-01 | src 1.0000 tgt 0.7309 | 160s
+[s3-cc-AD-g0p3-seed1] it   800 | cls 0.0316 coral 4.507e-01 | src 1.0000 tgt 0.7249 | 184s
+[s3-cc-AD-g0p3-seed1] it   900 | cls 0.0305 coral 4.317e-01 | src 1.0000 tgt 0.7249 | 209s
+[s3-cc-AD-g0p3-seed1] it  1000 | cls 0.0281 coral 4.134e-01 | src 1.0000 tgt 0.7229 | 234s
+[s3-cc-AD-g0p3-seed1] it  1100 | cls 0.0305 coral 4.119e-01 | src 1.0000 tgt 0.7249 | 260s
+[s3-cc-AD-g0p3-seed1] it  1200 | cls 0.0282 coral 4.088e-01 | src 1.0000 tgt 0.7229 | 285s
+[s3-cc-AD-g0p3-seed1] it  1300 | cls 0.0306 coral 4.130e-01 | src 1.0000 tgt 0.7249 | 310s
+[s3-cc-AD-g0p3-seed1] it  1400 | cls 0.0274 coral 4.009e-01 | src 1.0000 tgt 0.7209 | 335s
+[s3-cc-AD-g0p3-seed1] it  1500 | cls 0.0263 coral 4.115e-01 | src 1.0000 tgt 0.7269 | 359s
+[s3-cc-AD-g0p3-seed1] it  1600 | cls 0.0302 coral 4.068e-01 | src 1.0000 tgt 0.7249 | 384s
+[s3-cc-AD-g0p3-seed1] it  1700 | cls 0.0295 coral 4.021e-01 | src 1.0000 tgt 0.7309 | 408s
+[s3-cc-AD-g0p3-seed1] it  1800 | cls 0.0289 coral 3.997e-01 | src 1.0000 tgt 0.7329 | 433s
+[s3-cc-AD-g0p3-seed1] it  1900 | cls 0.0292 coral 4.093e-01 | src 1.0000 tgt 0.7269 | 457s
+[s3-cc-AD-g0p3-seed1] it  2000 | cls 0.0292 coral 3.968e-01 | src 1.0000 tgt 0.7289 | 482s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 2 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AD-g0p3-seed2 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AD-g0p3-seed2] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0266 tgt 0.0341 | 15s
+[s3-cc-AD-g0p3-seed2] it   100 | cls 0.7882 coral 8.721e-01 | src 0.9709 tgt 0.7048 | 39s
+[s3-cc-AD-g0p3-seed2] it   200 | cls 0.2085 coral 8.071e-01 | src 0.9965 tgt 0.7209 | 58s
+[s3-cc-AD-g0p3-seed2] it   300 | cls 0.1066 coral 7.477e-01 | src 0.9989 tgt 0.7169 | 77s
+[s3-cc-AD-g0p3-seed2] it   400 | cls 0.0619 coral 6.711e-01 | src 0.9996 tgt 0.7209 | 97s
+[s3-cc-AD-g0p3-seed2] it   500 | cls 0.0470 coral 5.711e-01 | src 1.0000 tgt 0.7169 | 116s
+[s3-cc-AD-g0p3-seed2] it   600 | cls 0.0360 coral 5.361e-01 | src 1.0000 tgt 0.7189 | 135s
+[s3-cc-AD-g0p3-seed2] it   700 | cls 0.0326 coral 4.423e-01 | src 1.0000 tgt 0.7189 | 160s
+[s3-cc-AD-g0p3-seed2] it   800 | cls 0.0328 coral 4.331e-01 | src 1.0000 tgt 0.7209 | 185s
+[s3-cc-AD-g0p3-seed2] it   900 | cls 0.0310 coral 4.170e-01 | src 1.0000 tgt 0.7209 | 209s
+[s3-cc-AD-g0p3-seed2] it  1000 | cls 0.0294 coral 4.184e-01 | src 1.0000 tgt 0.7209 | 234s
+[s3-cc-AD-g0p3-seed2] it  1100 | cls 0.0272 coral 4.139e-01 | src 1.0000 tgt 0.7209 | 258s
+[s3-cc-AD-g0p3-seed2] it  1200 | cls 0.0296 coral 4.163e-01 | src 1.0000 tgt 0.7189 | 283s
+[s3-cc-AD-g0p3-seed2] it  1300 | cls 0.0294 coral 4.097e-01 | src 1.0000 tgt 0.7189 | 307s
+[s3-cc-AD-g0p3-seed2] it  1400 | cls 0.0276 coral 4.116e-01 | src 1.0000 tgt 0.7209 | 332s
+[s3-cc-AD-g0p3-seed2] it  1500 | cls 0.0281 coral 4.181e-01 | src 1.0000 tgt 0.7209 | 356s
+[s3-cc-AD-g0p3-seed2] it  1600 | cls 0.0275 coral 4.174e-01 | src 1.0000 tgt 0.7209 | 381s
+[s3-cc-AD-g0p3-seed2] it  1700 | cls 0.0281 coral 4.200e-01 | src 1.0000 tgt 0.7209 | 405s
+[s3-cc-AD-g0p3-seed2] it  1800 | cls 0.0262 coral 4.096e-01 | src 1.0000 tgt 0.7209 | 430s
+[s3-cc-AD-g0p3-seed2] it  1900 | cls 0.0283 coral 4.102e-01 | src 1.0000 tgt 0.7209 | 454s
+[s3-cc-AD-g0p3-seed2] it  2000 | cls 0.0270 coral 4.142e-01 | src 1.0000 tgt 0.7189 | 480s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 3 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-AD-g0p3-seed3 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AD-g0p3-seed3] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0160 tgt 0.0161 | 16s
+[s3-cc-AD-g0p3-seed3] it   100 | cls 0.7900 coral 8.708e-01 | src 0.9716 tgt 0.7229 | 39s
+[s3-cc-AD-g0p3-seed3] it   200 | cls 0.2171 coral 8.236e-01 | src 0.9975 tgt 0.7430 | 58s
+[s3-cc-AD-g0p3-seed3] it   300 | cls 0.1052 coral 7.439e-01 | src 0.9993 tgt 0.7450 | 77s
+[s3-cc-AD-g0p3-seed3] it   400 | cls 0.0628 coral 6.599e-01 | src 0.9996 tgt 0.7490 | 97s
+[s3-cc-AD-g0p3-seed3] it   500 | cls 0.0481 coral 5.809e-01 | src 1.0000 tgt 0.7450 | 116s
+[s3-cc-AD-g0p3-seed3] it   600 | cls 0.0348 coral 5.423e-01 | src 1.0000 tgt 0.7450 | 136s
+[s3-cc-AD-g0p3-seed3] it   700 | cls 0.0356 coral 4.565e-01 | src 1.0000 tgt 0.7450 | 160s
+[s3-cc-AD-g0p3-seed3] it   800 | cls 0.0314 coral 4.317e-01 | src 1.0000 tgt 0.7450 | 184s
+[s3-cc-AD-g0p3-seed3] it   900 | cls 0.0295 coral 4.282e-01 | src 1.0000 tgt 0.7450 | 209s
+[s3-cc-AD-g0p3-seed3] it  1000 | cls 0.0293 coral 4.133e-01 | src 1.0000 tgt 0.7450 | 234s
+[s3-cc-AD-g0p3-seed3] it  1100 | cls 0.0287 coral 4.127e-01 | src 1.0000 tgt 0.7450 | 258s
+[s3-cc-AD-g0p3-seed3] it  1200 | cls 0.0278 coral 4.057e-01 | src 1.0000 tgt 0.7450 | 282s
+[s3-cc-AD-g0p3-seed3] it  1300 | cls 0.0286 coral 3.974e-01 | src 1.0000 tgt 0.7450 | 307s
+[s3-cc-AD-g0p3-seed3] it  1400 | cls 0.0294 coral 4.118e-01 | src 1.0000 tgt 0.7450 | 332s
+[s3-cc-AD-g0p3-seed3] it  1500 | cls 0.0275 coral 4.181e-01 | src 1.0000 tgt 0.7450 | 357s
+[s3-cc-AD-g0p3-seed3] it  1600 | cls 0.0271 coral 3.881e-01 | src 1.0000 tgt 0.7450 | 382s
+[s3-cc-AD-g0p3-seed3] it  1700 | cls 0.0275 coral 3.970e-01 | src 1.0000 tgt 0.7450 | 407s
+[s3-cc-AD-g0p3-seed3] it  1800 | cls 0.0282 coral 3.920e-01 | src 1.0000 tgt 0.7450 | 432s
+[s3-cc-AD-g0p3-seed3] it  1900 | cls 0.0281 coral 4.002e-01 | src 1.0000 tgt 0.7450 | 456s
+[s3-cc-AD-g0p3-seed3] it  2000 | cls 0.0300 coral 4.006e-01 | src 1.0000 tgt 0.7450 | 481s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 1 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-DA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-DA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0221 tgt 0.0444 | 16s
+[s3-cc-DA-g0p3-seed1] it   100 | cls 0.1647 coral 1.768e+01 | src 1.0000 tgt 0.5747 | 39s
+[s3-cc-DA-g0p3-seed1] it   200 | cls 0.0058 coral 1.522e+01 | src 1.0000 tgt 0.5825 | 59s
+[s3-cc-DA-g0p3-seed1] it   300 | cls 0.0025 coral 1.311e+01 | src 1.0000 tgt 0.5907 | 79s
+[s3-cc-DA-g0p3-seed1] it   400 | cls 0.0032 coral 1.237e+01 | src 1.0000 tgt 0.5974 | 98s
+[s3-cc-DA-g0p3-seed1] it   500 | cls 0.0033 coral 1.113e+01 | src 1.0000 tgt 0.5974 | 118s
+[s3-cc-DA-g0p3-seed1] it   600 | cls 0.0020 coral 1.150e+01 | src 1.0000 tgt 0.6028 | 138s
+[s3-cc-DA-g0p3-seed1] it   700 | cls 0.0157 coral 1.722e+00 | src 1.0000 tgt 0.6013 | 162s
+[s3-cc-DA-g0p3-seed1] it   800 | cls 0.0039 coral 1.572e+00 | src 1.0000 tgt 0.6053 | 187s
+[s3-cc-DA-g0p3-seed1] it   900 | cls 0.0031 coral 1.551e+00 | src 1.0000 tgt 0.6067 | 213s
+[s3-cc-DA-g0p3-seed1] it  1000 | cls 0.0025 coral 1.549e+00 | src 1.0000 tgt 0.6077 | 238s
+[s3-cc-DA-g0p3-seed1] it  1100 | cls 0.0029 coral 1.492e+00 | src 1.0000 tgt 0.6053 | 263s
+[s3-cc-DA-g0p3-seed1] it  1200 | cls 0.0028 coral 1.524e+00 | src 1.0000 tgt 0.6060 | 289s
+[s3-cc-DA-g0p3-seed1] it  1300 | cls 0.0025 coral 1.499e+00 | src 1.0000 tgt 0.6074 | 313s
+[s3-cc-DA-g0p3-seed1] it  1400 | cls 0.0024 coral 1.473e+00 | src 1.0000 tgt 0.6053 | 338s
+[s3-cc-DA-g0p3-seed1] it  1500 | cls 0.0027 coral 1.486e+00 | src 1.0000 tgt 0.6060 | 363s
+[s3-cc-DA-g0p3-seed1] it  1600 | cls 0.0026 coral 1.470e+00 | src 1.0000 tgt 0.6017 | 388s
+[s3-cc-DA-g0p3-seed1] it  1700 | cls 0.0028 coral 1.443e+00 | src 1.0000 tgt 0.6038 | 412s
+[s3-cc-DA-g0p3-seed1] it  1800 | cls 0.0025 coral 1.481e+00 | src 1.0000 tgt 0.6042 | 437s
+[s3-cc-DA-g0p3-seed1] it  1900 | cls 0.0027 coral 1.471e+00 | src 1.0000 tgt 0.6067 | 462s
+[s3-cc-DA-g0p3-seed1] it  2000 | cls 0.0024 coral 1.470e+00 | src 1.0000 tgt 0.6063 | 487s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 2 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-DA-g0p3-seed2 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-DA-g0p3-seed2] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0361 tgt 0.0280 | 15s
+[s3-cc-DA-g0p3-seed2] it   100 | cls 0.1647 coral 1.837e+01 | src 1.0000 tgt 0.5733 | 39s
+[s3-cc-DA-g0p3-seed2] it   200 | cls 0.0044 coral 1.568e+01 | src 1.0000 tgt 0.5903 | 59s
+[s3-cc-DA-g0p3-seed2] it   300 | cls 0.0042 coral 1.390e+01 | src 1.0000 tgt 0.5882 | 78s
+[s3-cc-DA-g0p3-seed2] it   400 | cls 0.0035 coral 1.209e+01 | src 1.0000 tgt 0.6053 | 98s
+[s3-cc-DA-g0p3-seed2] it   500 | cls 0.0021 coral 1.075e+01 | src 1.0000 tgt 0.5964 | 118s
+[s3-cc-DA-g0p3-seed2] it   600 | cls 0.0025 coral 1.044e+01 | src 1.0000 tgt 0.6074 | 137s
+[s3-cc-DA-g0p3-seed2] it   700 | cls 0.0262 coral 1.498e+00 | src 1.0000 tgt 0.6038 | 162s
+[s3-cc-DA-g0p3-seed2] it   800 | cls 0.0035 coral 1.439e+00 | src 1.0000 tgt 0.6060 | 187s
+[s3-cc-DA-g0p3-seed2] it   900 | cls 0.0029 coral 1.539e+00 | src 1.0000 tgt 0.6074 | 212s
+[s3-cc-DA-g0p3-seed2] it  1000 | cls 0.0027 coral 1.535e+00 | src 1.0000 tgt 0.6067 | 237s
+[s3-cc-DA-g0p3-seed2] it  1100 | cls 0.0027 coral 1.463e+00 | src 1.0000 tgt 0.6077 | 262s
+[s3-cc-DA-g0p3-seed2] it  1200 | cls 0.0027 coral 1.471e+00 | src 1.0000 tgt 0.6070 | 286s
+[s3-cc-DA-g0p3-seed2] it  1300 | cls 0.0028 coral 1.474e+00 | src 1.0000 tgt 0.6063 | 311s
+[s3-cc-DA-g0p3-seed2] it  1400 | cls 0.0028 coral 1.446e+00 | src 1.0000 tgt 0.6056 | 336s
+[s3-cc-DA-g0p3-seed2] it  1500 | cls 0.0027 coral 1.452e+00 | src 1.0000 tgt 0.6067 | 361s
+[s3-cc-DA-g0p3-seed2] it  1600 | cls 0.0026 coral 1.427e+00 | src 1.0000 tgt 0.6053 | 385s
+[s3-cc-DA-g0p3-seed2] it  1700 | cls 0.0027 coral 1.480e+00 | src 1.0000 tgt 0.6074 | 410s
+[s3-cc-DA-g0p3-seed2] it  1800 | cls 0.0029 coral 1.462e+00 | src 1.0000 tgt 0.6067 | 435s
+[s3-cc-DA-g0p3-seed2] it  1900 | cls 0.0028 coral 1.510e+00 | src 1.0000 tgt 0.6063 | 462s
+[s3-cc-DA-g0p3-seed2] it  2000 | cls 0.0024 coral 1.460e+00 | src 1.0000 tgt 0.6060 | 487s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 3 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-DA-g0p3-seed3 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-DA-g0p3-seed3] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0100 tgt 0.0167 | 16s
+[s3-cc-DA-g0p3-seed3] it   100 | cls 0.1590 coral 1.817e+01 | src 1.0000 tgt 0.5708 | 39s
+[s3-cc-DA-g0p3-seed3] it   200 | cls 0.0064 coral 1.567e+01 | src 1.0000 tgt 0.5882 | 59s
+[s3-cc-DA-g0p3-seed3] it   300 | cls 0.0024 coral 1.330e+01 | src 1.0000 tgt 0.5879 | 78s
+[s3-cc-DA-g0p3-seed3] it   400 | cls 0.0038 coral 1.216e+01 | src 1.0000 tgt 0.6010 | 98s
+[s3-cc-DA-g0p3-seed3] it   500 | cls 0.0019 coral 1.131e+01 | src 1.0000 tgt 0.6077 | 118s
+[s3-cc-DA-g0p3-seed3] it   600 | cls 0.0037 coral 1.019e+01 | src 1.0000 tgt 0.6045 | 137s
+[s3-cc-DA-g0p3-seed3] it   700 | cls 0.0124 coral 1.794e+00 | src 1.0000 tgt 0.6038 | 162s
+[s3-cc-DA-g0p3-seed3] it   800 | cls 0.0034 coral 1.636e+00 | src 1.0000 tgt 0.6056 | 187s
+[s3-cc-DA-g0p3-seed3] it   900 | cls 0.0029 coral 1.549e+00 | src 1.0000 tgt 0.6045 | 211s
+[s3-cc-DA-g0p3-seed3] it  1000 | cls 0.0030 coral 1.562e+00 | src 1.0000 tgt 0.6088 | 236s
+[s3-cc-DA-g0p3-seed3] it  1100 | cls 0.0026 coral 1.553e+00 | src 1.0000 tgt 0.6067 | 261s
+[s3-cc-DA-g0p3-seed3] it  1200 | cls 0.0026 coral 1.507e+00 | src 1.0000 tgt 0.6060 | 285s
+[s3-cc-DA-g0p3-seed3] it  1300 | cls 0.0028 coral 1.521e+00 | src 1.0000 tgt 0.6056 | 311s
+[s3-cc-DA-g0p3-seed3] it  1400 | cls 0.0029 coral 1.499e+00 | src 1.0000 tgt 0.6077 | 336s
+[s3-cc-DA-g0p3-seed3] it  1500 | cls 0.0025 coral 1.551e+00 | src 1.0000 tgt 0.6056 | 361s
+[s3-cc-DA-g0p3-seed3] it  1600 | cls 0.0025 coral 1.490e+00 | src 1.0000 tgt 0.6042 | 386s
+[s3-cc-DA-g0p3-seed3] it  1700 | cls 0.0025 coral 1.499e+00 | src 1.0000 tgt 0.6070 | 411s
+[s3-cc-DA-g0p3-seed3] it  1800 | cls 0.0030 coral 1.487e+00 | src 1.0000 tgt 0.6067 | 436s
+[s3-cc-DA-g0p3-seed3] it  1900 | cls 0.0024 coral 1.492e+00 | src 1.0000 tgt 0.6056 | 461s
+[s3-cc-DA-g0p3-seed3] it  2000 | cls 0.0030 coral 1.522e+00 | src 1.0000 tgt 0.6063 | 485s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 1 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-WA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-WA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0289 tgt 0.0447 | 15s
+[s3-cc-WA-g0p3-seed1] it   100 | cls 0.2059 coral 1.942e+01 | src 1.0000 tgt 0.5570 | 38s
+[s3-cc-WA-g0p3-seed1] it   200 | cls 0.0061 coral 2.163e+01 | src 1.0000 tgt 0.5740 | 58s
+[s3-cc-WA-g0p3-seed1] it   300 | cls 0.0056 coral 1.897e+01 | src 1.0000 tgt 0.5793 | 77s
+[s3-cc-WA-g0p3-seed1] it   400 | cls 0.0077 coral 1.659e+01 | src 1.0000 tgt 0.5911 | 97s
+[s3-cc-WA-g0p3-seed1] it   500 | cls 0.0057 coral 1.566e+01 | src 1.0000 tgt 0.5903 | 116s
+[s3-cc-WA-g0p3-seed1] it   600 | cls 0.0030 coral 1.589e+01 | src 1.0000 tgt 0.5950 | 136s
+[s3-cc-WA-g0p3-seed1] it   700 | cls 0.0407 coral 1.928e+00 | src 1.0000 tgt 0.5864 | 160s
+[s3-cc-WA-g0p3-seed1] it   800 | cls 0.0066 coral 1.937e+00 | src 1.0000 tgt 0.5932 | 186s
+[s3-cc-WA-g0p3-seed1] it   900 | cls 0.0045 coral 2.000e+00 | src 1.0000 tgt 0.5971 | 211s
+[s3-cc-WA-g0p3-seed1] it  1000 | cls 0.0041 coral 1.846e+00 | src 1.0000 tgt 0.6031 | 235s
+[s3-cc-WA-g0p3-seed1] it  1100 | cls 0.0044 coral 1.822e+00 | src 1.0000 tgt 0.5992 | 260s
+[s3-cc-WA-g0p3-seed1] it  1200 | cls 0.0037 coral 1.775e+00 | src 1.0000 tgt 0.6024 | 284s
+[s3-cc-WA-g0p3-seed1] it  1300 | cls 0.0039 coral 1.809e+00 | src 1.0000 tgt 0.6031 | 309s
+[s3-cc-WA-g0p3-seed1] it  1400 | cls 0.0038 coral 1.773e+00 | src 1.0000 tgt 0.6042 | 333s
+[s3-cc-WA-g0p3-seed1] it  1500 | cls 0.0042 coral 1.829e+00 | src 1.0000 tgt 0.6028 | 358s
+[s3-cc-WA-g0p3-seed1] it  1600 | cls 0.0040 coral 1.746e+00 | src 1.0000 tgt 0.6021 | 382s
+[s3-cc-WA-g0p3-seed1] it  1700 | cls 0.0044 coral 1.747e+00 | src 1.0000 tgt 0.6053 | 407s
+[s3-cc-WA-g0p3-seed1] it  1800 | cls 0.0037 coral 1.818e+00 | src 1.0000 tgt 0.5999 | 432s
+[s3-cc-WA-g0p3-seed1] it  1900 | cls 0.0042 coral 1.762e+00 | src 1.0000 tgt 0.6035 | 456s
+[s3-cc-WA-g0p3-seed1] it  2000 | cls 0.0034 coral 1.782e+00 | src 1.0000 tgt 0.6031 | 481s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 2 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-WA-g0p3-seed2 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-WA-g0p3-seed2] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0428 tgt 0.0277 | 15s
+[s3-cc-WA-g0p3-seed2] it   100 | cls 0.1989 coral 2.126e+01 | src 1.0000 tgt 0.5534 | 38s
+[s3-cc-WA-g0p3-seed2] it   200 | cls 0.0100 coral 2.143e+01 | src 0.9987 tgt 0.5595 | 58s
+[s3-cc-WA-g0p3-seed2] it   300 | cls 0.0066 coral 1.932e+01 | src 1.0000 tgt 0.5442 | 77s
+[s3-cc-WA-g0p3-seed2] it   400 | cls 0.0053 coral 1.741e+01 | src 1.0000 tgt 0.5456 | 97s
+[s3-cc-WA-g0p3-seed2] it   500 | cls 0.0034 coral 1.568e+01 | src 1.0000 tgt 0.5513 | 116s
+[s3-cc-WA-g0p3-seed2] it   600 | cls 0.0031 coral 1.449e+01 | src 1.0000 tgt 0.5513 | 136s
+[s3-cc-WA-g0p3-seed2] it   700 | cls 0.0704 coral 1.725e+00 | src 1.0000 tgt 0.5492 | 160s
+[s3-cc-WA-g0p3-seed2] it   800 | cls 0.0082 coral 1.930e+00 | src 1.0000 tgt 0.5556 | 185s
+[s3-cc-WA-g0p3-seed2] it   900 | cls 0.0060 coral 1.909e+00 | src 1.0000 tgt 0.5577 | 209s
+[s3-cc-WA-g0p3-seed2] it  1000 | cls 0.0046 coral 1.930e+00 | src 1.0000 tgt 0.5548 | 234s
+[s3-cc-WA-g0p3-seed2] it  1100 | cls 0.0048 coral 1.846e+00 | src 1.0000 tgt 0.5570 | 259s
+[s3-cc-WA-g0p3-seed2] it  1200 | cls 0.0047 coral 1.845e+00 | src 1.0000 tgt 0.5591 | 283s
+[s3-cc-WA-g0p3-seed2] it  1300 | cls 0.0046 coral 1.850e+00 | src 1.0000 tgt 0.5566 | 308s
+[s3-cc-WA-g0p3-seed2] it  1400 | cls 0.0048 coral 1.767e+00 | src 1.0000 tgt 0.5588 | 332s
+[s3-cc-WA-g0p3-seed2] it  1500 | cls 0.0051 coral 1.791e+00 | src 1.0000 tgt 0.5573 | 357s
+[s3-cc-WA-g0p3-seed2] it  1600 | cls 0.0047 coral 1.751e+00 | src 1.0000 tgt 0.5566 | 382s
+[s3-cc-WA-g0p3-seed2] it  1700 | cls 0.0050 coral 1.792e+00 | src 1.0000 tgt 0.5584 | 407s
+[s3-cc-WA-g0p3-seed2] it  1800 | cls 0.0046 coral 1.749e+00 | src 1.0000 tgt 0.5591 | 432s
+[s3-cc-WA-g0p3-seed2] it  1900 | cls 0.0048 coral 1.782e+00 | src 1.0000 tgt 0.5566 | 458s
+[s3-cc-WA-g0p3-seed2] it  2000 | cls 0.0043 coral 1.746e+00 | src 1.0000 tgt 0.5591 | 483s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 3 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms both --name s3-cc-WA-g0p3-seed3 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-WA-g0p3-seed3] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0138 tgt 0.0170 | 15s
+[s3-cc-WA-g0p3-seed3] it   100 | cls 0.2093 coral 1.962e+01 | src 1.0000 tgt 0.5375 | 38s
+[s3-cc-WA-g0p3-seed3] it   200 | cls 0.0108 coral 2.240e+01 | src 1.0000 tgt 0.5453 | 58s
+[s3-cc-WA-g0p3-seed3] it   300 | cls 0.0064 coral 1.858e+01 | src 1.0000 tgt 0.5304 | 77s
+[s3-cc-WA-g0p3-seed3] it   400 | cls 0.0054 coral 1.810e+01 | src 1.0000 tgt 0.5431 | 97s
+[s3-cc-WA-g0p3-seed3] it   500 | cls 0.0028 coral 1.764e+01 | src 1.0000 tgt 0.5343 | 116s
+[s3-cc-WA-g0p3-seed3] it   600 | cls 0.0044 coral 1.545e+01 | src 1.0000 tgt 0.5364 | 136s
+[s3-cc-WA-g0p3-seed3] it   700 | cls 0.0641 coral 1.610e+00 | src 1.0000 tgt 0.5385 | 161s
+[s3-cc-WA-g0p3-seed3] it   800 | cls 0.0068 coral 1.802e+00 | src 1.0000 tgt 0.5460 | 185s
+[s3-cc-WA-g0p3-seed3] it   900 | cls 0.0049 coral 1.852e+00 | src 1.0000 tgt 0.5502 | 210s
+[s3-cc-WA-g0p3-seed3] it  1000 | cls 0.0047 coral 1.899e+00 | src 1.0000 tgt 0.5481 | 234s
+[s3-cc-WA-g0p3-seed3] it  1100 | cls 0.0046 coral 1.852e+00 | src 1.0000 tgt 0.5517 | 259s
+[s3-cc-WA-g0p3-seed3] it  1200 | cls 0.0047 coral 1.892e+00 | src 1.0000 tgt 0.5492 | 284s
+[s3-cc-WA-g0p3-seed3] it  1300 | cls 0.0043 coral 1.863e+00 | src 1.0000 tgt 0.5513 | 310s
+[s3-cc-WA-g0p3-seed3] it  1400 | cls 0.0038 coral 1.849e+00 | src 1.0000 tgt 0.5509 | 335s
+[s3-cc-WA-g0p3-seed3] it  1500 | cls 0.0041 coral 1.860e+00 | src 1.0000 tgt 0.5517 | 360s
+[s3-cc-WA-g0p3-seed3] it  1600 | cls 0.0034 coral 1.808e+00 | src 1.0000 tgt 0.5499 | 384s
+[s3-cc-WA-g0p3-seed3] it  1700 | cls 0.0035 coral 1.827e+00 | src 1.0000 tgt 0.5470 | 409s
+[s3-cc-WA-g0p3-seed3] it  1800 | cls 0.0043 coral 1.804e+00 | src 1.0000 tgt 0.5463 | 433s
+[s3-cc-WA-g0p3-seed3] it  1900 | cls 0.0036 coral 1.863e+00 | src 1.0000 tgt 0.5541 | 458s
+[s3-cc-WA-g0p3-seed3] it  2000 | cls 0.0041 coral 1.778e+00 | src 1.0000 tgt 0.5492 | 483s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 1 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms mean --name s3-ccmean-AW-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-ccmean-AW-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0365 | 15s
+[s3-ccmean-AW-g0p3-seed1] it   100 | cls 0.8080 coral 1.711e-01 | src 0.9624 tgt 0.7157 | 38s
+[s3-ccmean-AW-g0p3-seed1] it   200 | cls 0.2485 coral 1.460e-01 | src 0.9965 tgt 0.7522 | 58s
+[s3-ccmean-AW-g0p3-seed1] it   300 | cls 0.1338 coral 1.308e-01 | src 1.0000 tgt 0.7535 | 77s
+[s3-ccmean-AW-g0p3-seed1] it   400 | cls 0.0940 coral 1.162e-01 | src 1.0000 tgt 0.7522 | 97s
+[s3-ccmean-AW-g0p3-seed1] it   500 | cls 0.0755 coral 1.069e-01 | src 0.9996 tgt 0.7522 | 116s
+[s3-ccmean-AW-g0p3-seed1] it   600 | cls 0.0617 coral 1.034e-01 | src 1.0000 tgt 0.7522 | 136s
+[s3-ccmean-AW-g0p3-seed1] it   700 | cls 0.0571 coral 1.000e-01 | src 1.0000 tgt 0.7509 | 159s
+[s3-ccmean-AW-g0p3-seed1] it   800 | cls 0.0571 coral 9.863e-02 | src 1.0000 tgt 0.7497 | 182s
+[s3-ccmean-AW-g0p3-seed1] it   900 | cls 0.0529 coral 9.750e-02 | src 1.0000 tgt 0.7535 | 205s
+[s3-ccmean-AW-g0p3-seed1] it  1000 | cls 0.0509 coral 9.508e-02 | src 1.0000 tgt 0.7497 | 228s
+[s3-ccmean-AW-g0p3-seed1] it  1100 | cls 0.0536 coral 9.484e-02 | src 1.0000 tgt 0.7509 | 250s
+[s3-ccmean-AW-g0p3-seed1] it  1200 | cls 0.0518 coral 9.318e-02 | src 1.0000 tgt 0.7522 | 273s
+[s3-ccmean-AW-g0p3-seed1] it  1300 | cls 0.0519 coral 9.346e-02 | src 1.0000 tgt 0.7522 | 295s
+[s3-ccmean-AW-g0p3-seed1] it  1400 | cls 0.0516 coral 9.413e-02 | src 1.0000 tgt 0.7497 | 318s
+[s3-ccmean-AW-g0p3-seed1] it  1500 | cls 0.0492 coral 9.439e-02 | src 1.0000 tgt 0.7522 | 340s
+[s3-ccmean-AW-g0p3-seed1] it  1600 | cls 0.0529 coral 9.689e-02 | src 1.0000 tgt 0.7497 | 363s
+[s3-ccmean-AW-g0p3-seed1] it  1700 | cls 0.0513 coral 9.553e-02 | src 1.0000 tgt 0.7535 | 385s
+[s3-ccmean-AW-g0p3-seed1] it  1800 | cls 0.0525 coral 9.423e-02 | src 1.0000 tgt 0.7509 | 408s
+[s3-ccmean-AW-g0p3-seed1] it  1900 | cls 0.0513 coral 9.569e-02 | src 1.0000 tgt 0.7522 | 431s
+[s3-ccmean-AW-g0p3-seed1] it  2000 | cls 0.0517 coral 9.363e-02 | src 1.0000 tgt 0.7497 | 453s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 1 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms mean --name s3-ccmean-AD-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-ccmean-AD-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0261 | 16s
+[s3-ccmean-AD-g0p3-seed1] it   100 | cls 0.7960 coral 8.719e-01 | src 0.9652 tgt 0.6948 | 39s
+[s3-ccmean-AD-g0p3-seed1] it   200 | cls 0.2201 coral 8.189e-01 | src 0.9975 tgt 0.7108 | 58s
+[s3-ccmean-AD-g0p3-seed1] it   300 | cls 0.1063 coral 7.522e-01 | src 0.9996 tgt 0.7189 | 78s
+[s3-ccmean-AD-g0p3-seed1] it   400 | cls 0.0624 coral 6.599e-01 | src 1.0000 tgt 0.7209 | 97s
+[s3-ccmean-AD-g0p3-seed1] it   500 | cls 0.0475 coral 6.021e-01 | src 1.0000 tgt 0.7189 | 116s
+[s3-ccmean-AD-g0p3-seed1] it   600 | cls 0.0348 coral 5.694e-01 | src 1.0000 tgt 0.7249 | 136s
+[s3-ccmean-AD-g0p3-seed1] it   700 | cls 0.0298 coral 5.337e-01 | src 1.0000 tgt 0.7269 | 158s
+[s3-ccmean-AD-g0p3-seed1] it   800 | cls 0.0281 coral 5.223e-01 | src 1.0000 tgt 0.7249 | 181s
+[s3-ccmean-AD-g0p3-seed1] it   900 | cls 0.0283 coral 5.064e-01 | src 1.0000 tgt 0.7189 | 203s
+[s3-ccmean-AD-g0p3-seed1] it  1000 | cls 0.0257 coral 4.884e-01 | src 1.0000 tgt 0.7229 | 225s
+[s3-ccmean-AD-g0p3-seed1] it  1100 | cls 0.0277 coral 4.779e-01 | src 1.0000 tgt 0.7169 | 248s
+[s3-ccmean-AD-g0p3-seed1] it  1200 | cls 0.0257 coral 4.787e-01 | src 1.0000 tgt 0.7189 | 270s
+[s3-ccmean-AD-g0p3-seed1] it  1300 | cls 0.0282 coral 4.826e-01 | src 1.0000 tgt 0.7229 | 293s
+[s3-ccmean-AD-g0p3-seed1] it  1400 | cls 0.0247 coral 4.698e-01 | src 1.0000 tgt 0.7209 | 315s
+[s3-ccmean-AD-g0p3-seed1] it  1500 | cls 0.0236 coral 4.798e-01 | src 1.0000 tgt 0.7229 | 338s
+[s3-ccmean-AD-g0p3-seed1] it  1600 | cls 0.0272 coral 4.798e-01 | src 1.0000 tgt 0.7229 | 360s
+[s3-ccmean-AD-g0p3-seed1] it  1700 | cls 0.0270 coral 4.746e-01 | src 1.0000 tgt 0.7229 | 382s
+[s3-ccmean-AD-g0p3-seed1] it  1800 | cls 0.0267 coral 4.730e-01 | src 1.0000 tgt 0.7229 | 405s
+[s3-ccmean-AD-g0p3-seed1] it  1900 | cls 0.0276 coral 4.824e-01 | src 1.0000 tgt 0.7229 | 428s
+[s3-ccmean-AD-g0p3-seed1] it  2000 | cls 0.0263 coral 4.684e-01 | src 1.0000 tgt 0.7229 | 451s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 1 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms mean --name s3-ccmean-DA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-ccmean-DA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0221 tgt 0.0444 | 16s
+[s3-ccmean-DA-g0p3-seed1] it   100 | cls 0.1648 coral 1.761e+01 | src 1.0000 tgt 0.5825 | 39s
+[s3-ccmean-DA-g0p3-seed1] it   200 | cls 0.0060 coral 1.480e+01 | src 1.0000 tgt 0.5974 | 59s
+[s3-ccmean-DA-g0p3-seed1] it   300 | cls 0.0044 coral 1.326e+01 | src 1.0000 tgt 0.5996 | 79s
+[s3-ccmean-DA-g0p3-seed1] it   400 | cls 0.0033 coral 1.219e+01 | src 1.0000 tgt 0.6024 | 99s
+[s3-ccmean-DA-g0p3-seed1] it   500 | cls 0.0030 coral 1.096e+01 | src 1.0000 tgt 0.6088 | 119s
+[s3-ccmean-DA-g0p3-seed1] it   600 | cls 0.0020 coral 1.078e+01 | src 1.0000 tgt 0.6077 | 139s
+[s3-ccmean-DA-g0p3-seed1] it   700 | cls 0.0011 coral 8.227e+00 | src 1.0000 tgt 0.6081 | 161s
+[s3-ccmean-DA-g0p3-seed1] it   800 | cls 0.0012 coral 7.177e+00 | src 1.0000 tgt 0.6077 | 184s
+[s3-ccmean-DA-g0p3-seed1] it   900 | cls 0.0009 coral 6.725e+00 | src 1.0000 tgt 0.6124 | 207s
+[s3-ccmean-DA-g0p3-seed1] it  1000 | cls 0.0007 coral 6.676e+00 | src 1.0000 tgt 0.6113 | 230s
+[s3-ccmean-DA-g0p3-seed1] it  1100 | cls 0.0011 coral 6.416e+00 | src 1.0000 tgt 0.6141 | 252s
+[s3-ccmean-DA-g0p3-seed1] it  1200 | cls 0.0009 coral 6.611e+00 | src 1.0000 tgt 0.6138 | 275s
+[s3-ccmean-DA-g0p3-seed1] it  1300 | cls 0.0008 coral 6.433e+00 | src 1.0000 tgt 0.6113 | 298s
+[s3-ccmean-DA-g0p3-seed1] it  1400 | cls 0.0010 coral 6.315e+00 | src 1.0000 tgt 0.6102 | 321s
+[s3-ccmean-DA-g0p3-seed1] it  1500 | cls 0.0015 coral 6.386e+00 | src 1.0000 tgt 0.6099 | 345s
+[s3-ccmean-DA-g0p3-seed1] it  1600 | cls 0.0015 coral 6.198e+00 | src 1.0000 tgt 0.6084 | 368s
+[s3-ccmean-DA-g0p3-seed1] it  1700 | cls 0.0012 coral 6.199e+00 | src 1.0000 tgt 0.6109 | 391s
+[s3-ccmean-DA-g0p3-seed1] it  1800 | cls 0.0010 coral 6.342e+00 | src 1.0000 tgt 0.6116 | 414s
+[s3-ccmean-DA-g0p3-seed1] it  1900 | cls 0.0011 coral 6.321e+00 | src 1.0000 tgt 0.6102 | 437s
+[s3-ccmean-DA-g0p3-seed1] it  2000 | cls 0.0012 coral 6.399e+00 | src 1.0000 tgt 0.6109 | 460s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 1 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms mean --name s3-ccmean-WA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-ccmean-WA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0289 tgt 0.0447 | 15s
+[s3-ccmean-WA-g0p3-seed1] it   100 | cls 0.2051 coral 1.930e+01 | src 1.0000 tgt 0.5634 | 38s
+[s3-ccmean-WA-g0p3-seed1] it   200 | cls 0.0064 coral 2.148e+01 | src 1.0000 tgt 0.5570 | 58s
+[s3-ccmean-WA-g0p3-seed1] it   300 | cls 0.0077 coral 1.898e+01 | src 1.0000 tgt 0.5708 | 77s
+[s3-ccmean-WA-g0p3-seed1] it   400 | cls 0.0050 coral 1.652e+01 | src 1.0000 tgt 0.5761 | 97s
+[s3-ccmean-WA-g0p3-seed1] it   500 | cls 0.0045 coral 1.617e+01 | src 1.0000 tgt 0.5698 | 116s
+[s3-ccmean-WA-g0p3-seed1] it   600 | cls 0.0023 coral 1.454e+01 | src 1.0000 tgt 0.5662 | 136s
+[s3-ccmean-WA-g0p3-seed1] it   700 | cls 0.0022 coral 1.060e+01 | src 1.0000 tgt 0.5698 | 158s
+[s3-ccmean-WA-g0p3-seed1] it   800 | cls 0.0017 coral 9.071e+00 | src 1.0000 tgt 0.5708 | 181s
+[s3-ccmean-WA-g0p3-seed1] it   900 | cls 0.0021 coral 8.481e+00 | src 1.0000 tgt 0.5694 | 204s
+[s3-ccmean-WA-g0p3-seed1] it  1000 | cls 0.0018 coral 7.820e+00 | src 1.0000 tgt 0.5733 | 227s
+[s3-ccmean-WA-g0p3-seed1] it  1100 | cls 0.0023 coral 8.089e+00 | src 1.0000 tgt 0.5712 | 250s
+[s3-ccmean-WA-g0p3-seed1] it  1200 | cls 0.0012 coral 7.876e+00 | src 1.0000 tgt 0.5729 | 272s
+[s3-ccmean-WA-g0p3-seed1] it  1300 | cls 0.0018 coral 7.892e+00 | src 1.0000 tgt 0.5698 | 295s
+[s3-ccmean-WA-g0p3-seed1] it  1400 | cls 0.0021 coral 7.774e+00 | src 1.0000 tgt 0.5708 | 318s
+[s3-ccmean-WA-g0p3-seed1] it  1500 | cls 0.0020 coral 7.904e+00 | src 1.0000 tgt 0.5687 | 340s
+[s3-ccmean-WA-g0p3-seed1] it  1600 | cls 0.0024 coral 7.693e+00 | src 1.0000 tgt 0.5740 | 363s
+[s3-ccmean-WA-g0p3-seed1] it  1700 | cls 0.0021 coral 7.654e+00 | src 1.0000 tgt 0.5726 | 386s
+[s3-ccmean-WA-g0p3-seed1] it  1800 | cls 0.0015 coral 8.080e+00 | src 1.0000 tgt 0.5694 | 408s
+[s3-ccmean-WA-g0p3-seed1] it  1900 | cls 0.0018 coral 7.716e+00 | src 1.0000 tgt 0.5712 | 431s
+[s3-ccmean-WA-g0p3-seed1] it  2000 | cls 0.0012 coral 7.876e+00 | src 1.0000 tgt 0.5726 | 453s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 1 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms cov --name s3-cccov-AW-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cccov-AW-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0365 | 15s
+[s3-cccov-AW-g0p3-seed1] it   100 | cls 0.8066 coral 1.725e-01 | src 0.9606 tgt 0.7044 | 38s
+[s3-cccov-AW-g0p3-seed1] it   200 | cls 0.2512 coral 1.457e-01 | src 0.9968 tgt 0.7421 | 58s
+[s3-cccov-AW-g0p3-seed1] it   300 | cls 0.1332 coral 1.306e-01 | src 0.9996 tgt 0.7522 | 77s
+[s3-cccov-AW-g0p3-seed1] it   400 | cls 0.0944 coral 1.167e-01 | src 1.0000 tgt 0.7497 | 97s
+[s3-cccov-AW-g0p3-seed1] it   500 | cls 0.0741 coral 1.075e-01 | src 0.9996 tgt 0.7522 | 116s
+[s3-cccov-AW-g0p3-seed1] it   600 | cls 0.0619 coral 1.032e-01 | src 1.0000 tgt 0.7522 | 136s
+[s3-cccov-AW-g0p3-seed1] it   700 | cls 0.0569 coral 9.833e-02 | src 1.0000 tgt 0.7509 | 160s
+[s3-cccov-AW-g0p3-seed1] it   800 | cls 0.0579 coral 9.738e-02 | src 1.0000 tgt 0.7509 | 184s
+[s3-cccov-AW-g0p3-seed1] it   900 | cls 0.0541 coral 9.666e-02 | src 1.0000 tgt 0.7535 | 208s
+[s3-cccov-AW-g0p3-seed1] it  1000 | cls 0.0512 coral 9.447e-02 | src 1.0000 tgt 0.7509 | 232s
+[s3-cccov-AW-g0p3-seed1] it  1100 | cls 0.0545 coral 9.369e-02 | src 1.0000 tgt 0.7497 | 256s
+[s3-cccov-AW-g0p3-seed1] it  1200 | cls 0.0524 coral 9.216e-02 | src 1.0000 tgt 0.7522 | 280s
+[s3-cccov-AW-g0p3-seed1] it  1300 | cls 0.0528 coral 9.242e-02 | src 1.0000 tgt 0.7509 | 304s
+[s3-cccov-AW-g0p3-seed1] it  1400 | cls 0.0523 coral 9.353e-02 | src 1.0000 tgt 0.7522 | 328s
+[s3-cccov-AW-g0p3-seed1] it  1500 | cls 0.0499 coral 9.358e-02 | src 1.0000 tgt 0.7497 | 352s
+[s3-cccov-AW-g0p3-seed1] it  1600 | cls 0.0539 coral 9.577e-02 | src 1.0000 tgt 0.7497 | 376s
+[s3-cccov-AW-g0p3-seed1] it  1700 | cls 0.0518 coral 9.506e-02 | src 1.0000 tgt 0.7522 | 399s
+[s3-cccov-AW-g0p3-seed1] it  1800 | cls 0.0525 coral 9.356e-02 | src 1.0000 tgt 0.7522 | 423s
+[s3-cccov-AW-g0p3-seed1] it  1900 | cls 0.0517 coral 9.507e-02 | src 1.0000 tgt 0.7522 | 447s
+[s3-cccov-AW-g0p3-seed1] it  2000 | cls 0.0518 coral 9.289e-02 | src 1.0000 tgt 0.7509 | 471s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 1 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms cov --name s3-cccov-AD-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cccov-AD-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0261 | 16s
+[s3-cccov-AD-g0p3-seed1] it   100 | cls 0.7988 coral 8.667e-01 | src 0.9649 tgt 0.6948 | 39s
+[s3-cccov-AD-g0p3-seed1] it   200 | cls 0.2150 coral 8.164e-01 | src 0.9979 tgt 0.7028 | 58s
+[s3-cccov-AD-g0p3-seed1] it   300 | cls 0.1073 coral 7.543e-01 | src 1.0000 tgt 0.7068 | 78s
+[s3-cccov-AD-g0p3-seed1] it   400 | cls 0.0638 coral 6.592e-01 | src 0.9996 tgt 0.7048 | 97s
+[s3-cccov-AD-g0p3-seed1] it   500 | cls 0.0476 coral 5.958e-01 | src 1.0000 tgt 0.7068 | 116s
+[s3-cccov-AD-g0p3-seed1] it   600 | cls 0.0363 coral 5.441e-01 | src 1.0000 tgt 0.7088 | 136s
+[s3-cccov-AD-g0p3-seed1] it   700 | cls 0.0322 coral 4.720e-01 | src 1.0000 tgt 0.7068 | 160s
+[s3-cccov-AD-g0p3-seed1] it   800 | cls 0.0303 coral 4.525e-01 | src 1.0000 tgt 0.7068 | 183s
+[s3-cccov-AD-g0p3-seed1] it   900 | cls 0.0305 coral 4.384e-01 | src 1.0000 tgt 0.7088 | 207s
+[s3-cccov-AD-g0p3-seed1] it  1000 | cls 0.0287 coral 4.196e-01 | src 1.0000 tgt 0.7088 | 231s
+[s3-cccov-AD-g0p3-seed1] it  1100 | cls 0.0298 coral 4.155e-01 | src 1.0000 tgt 0.7068 | 254s
+[s3-cccov-AD-g0p3-seed1] it  1200 | cls 0.0277 coral 4.128e-01 | src 1.0000 tgt 0.7088 | 278s
+[s3-cccov-AD-g0p3-seed1] it  1300 | cls 0.0305 coral 4.164e-01 | src 1.0000 tgt 0.7088 | 302s
+[s3-cccov-AD-g0p3-seed1] it  1400 | cls 0.0273 coral 4.087e-01 | src 1.0000 tgt 0.7068 | 325s
+[s3-cccov-AD-g0p3-seed1] it  1500 | cls 0.0266 coral 4.155e-01 | src 1.0000 tgt 0.7068 | 349s
+[s3-cccov-AD-g0p3-seed1] it  1600 | cls 0.0296 coral 4.145e-01 | src 1.0000 tgt 0.7068 | 374s
+[s3-cccov-AD-g0p3-seed1] it  1700 | cls 0.0296 coral 4.091e-01 | src 1.0000 tgt 0.7068 | 398s
+[s3-cccov-AD-g0p3-seed1] it  1800 | cls 0.0289 coral 4.074e-01 | src 1.0000 tgt 0.7068 | 422s
+[s3-cccov-AD-g0p3-seed1] it  1900 | cls 0.0292 coral 4.195e-01 | src 1.0000 tgt 0.7068 | 446s
+[s3-cccov-AD-g0p3-seed1] it  2000 | cls 0.0290 coral 4.053e-01 | src 1.0000 tgt 0.7068 | 470s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 1 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms cov --name s3-cccov-DA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cccov-DA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0221 tgt 0.0444 | 16s
+[s3-cccov-DA-g0p3-seed1] it   100 | cls 0.1647 coral 1.768e+01 | src 1.0000 tgt 0.5761 | 39s
+[s3-cccov-DA-g0p3-seed1] it   200 | cls 0.0055 coral 1.534e+01 | src 1.0000 tgt 0.6003 | 59s
+[s3-cccov-DA-g0p3-seed1] it   300 | cls 0.0033 coral 1.304e+01 | src 1.0000 tgt 0.5932 | 79s
+[s3-cccov-DA-g0p3-seed1] it   400 | cls 0.0020 coral 1.215e+01 | src 1.0000 tgt 0.6053 | 98s
+[s3-cccov-DA-g0p3-seed1] it   500 | cls 0.0042 coral 1.085e+01 | src 1.0000 tgt 0.6113 | 118s
+[s3-cccov-DA-g0p3-seed1] it   600 | cls 0.0031 coral 1.041e+01 | src 1.0000 tgt 0.6099 | 138s
+[s3-cccov-DA-g0p3-seed1] it   700 | cls 0.0083 coral 2.109e+00 | src 1.0000 tgt 0.6113 | 162s
+[s3-cccov-DA-g0p3-seed1] it   800 | cls 0.0028 coral 2.016e+00 | src 1.0000 tgt 0.6127 | 186s
+[s3-cccov-DA-g0p3-seed1] it   900 | cls 0.0021 coral 1.950e+00 | src 1.0000 tgt 0.6145 | 209s
+[s3-cccov-DA-g0p3-seed1] it  1000 | cls 0.0018 coral 1.946e+00 | src 1.0000 tgt 0.6166 | 234s
+[s3-cccov-DA-g0p3-seed1] it  1100 | cls 0.0025 coral 1.829e+00 | src 1.0000 tgt 0.6159 | 259s
+[s3-cccov-DA-g0p3-seed1] it  1200 | cls 0.0025 coral 1.887e+00 | src 1.0000 tgt 0.6152 | 283s
+[s3-cccov-DA-g0p3-seed1] it  1300 | cls 0.0021 coral 1.837e+00 | src 1.0000 tgt 0.6163 | 307s
+[s3-cccov-DA-g0p3-seed1] it  1400 | cls 0.0022 coral 1.825e+00 | src 1.0000 tgt 0.6184 | 331s
+[s3-cccov-DA-g0p3-seed1] it  1500 | cls 0.0022 coral 1.821e+00 | src 1.0000 tgt 0.6109 | 355s
+[s3-cccov-DA-g0p3-seed1] it  1600 | cls 0.0024 coral 1.812e+00 | src 1.0000 tgt 0.6138 | 379s
+[s3-cccov-DA-g0p3-seed1] it  1700 | cls 0.0024 coral 1.788e+00 | src 1.0000 tgt 0.6131 | 403s
+[s3-cccov-DA-g0p3-seed1] it  1800 | cls 0.0022 coral 1.809e+00 | src 1.0000 tgt 0.6191 | 427s
+[s3-cccov-DA-g0p3-seed1] it  1900 | cls 0.0024 coral 1.792e+00 | src 1.0000 tgt 0.6166 | 451s
+[s3-cccov-DA-g0p3-seed1] it  2000 | cls 0.0020 coral 1.821e+00 | src 1.0000 tgt 0.6155 | 475s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 1 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.3 --cc_terms cov --name s3-cccov-WA-g0p3-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cccov-WA-g0p3-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0289 tgt 0.0447 | 15s
+[s3-cccov-WA-g0p3-seed1] it   100 | cls 0.2056 coral 1.913e+01 | src 1.0000 tgt 0.5641 | 38s
+[s3-cccov-WA-g0p3-seed1] it   200 | cls 0.0081 coral 2.206e+01 | src 1.0000 tgt 0.5712 | 58s
+[s3-cccov-WA-g0p3-seed1] it   300 | cls 0.0053 coral 1.904e+01 | src 1.0000 tgt 0.5832 | 77s
+[s3-cccov-WA-g0p3-seed1] it   400 | cls 0.0056 coral 1.672e+01 | src 1.0000 tgt 0.5918 | 97s
+[s3-cccov-WA-g0p3-seed1] it   500 | cls 0.0042 coral 1.551e+01 | src 1.0000 tgt 0.5939 | 116s
+[s3-cccov-WA-g0p3-seed1] it   600 | cls 0.0021 coral 1.519e+01 | src 1.0000 tgt 0.5964 | 136s
+[s3-cccov-WA-g0p3-seed1] it   700 | cls 0.0354 coral 1.953e+00 | src 1.0000 tgt 0.5964 | 160s
+[s3-cccov-WA-g0p3-seed1] it   800 | cls 0.0065 coral 2.123e+00 | src 1.0000 tgt 0.6031 | 185s
+[s3-cccov-WA-g0p3-seed1] it   900 | cls 0.0043 coral 2.232e+00 | src 1.0000 tgt 0.5992 | 209s
+[s3-cccov-WA-g0p3-seed1] it  1000 | cls 0.0032 coral 2.117e+00 | src 1.0000 tgt 0.6060 | 232s
+[s3-cccov-WA-g0p3-seed1] it  1100 | cls 0.0040 coral 2.167e+00 | src 1.0000 tgt 0.6031 | 256s
+[s3-cccov-WA-g0p3-seed1] it  1200 | cls 0.0034 coral 2.104e+00 | src 1.0000 tgt 0.6045 | 280s
+[s3-cccov-WA-g0p3-seed1] it  1300 | cls 0.0034 coral 2.130e+00 | src 1.0000 tgt 0.6024 | 304s
+[s3-cccov-WA-g0p3-seed1] it  1400 | cls 0.0035 coral 2.085e+00 | src 1.0000 tgt 0.6031 | 328s
+[s3-cccov-WA-g0p3-seed1] it  1500 | cls 0.0039 coral 2.143e+00 | src 1.0000 tgt 0.6028 | 352s
+[s3-cccov-WA-g0p3-seed1] it  1600 | cls 0.0035 coral 2.068e+00 | src 1.0000 tgt 0.6024 | 375s
+[s3-cccov-WA-g0p3-seed1] it  1700 | cls 0.0042 coral 2.070e+00 | src 1.0000 tgt 0.6063 | 399s
+[s3-cccov-WA-g0p3-seed1] it  1800 | cls 0.0037 coral 2.144e+00 | src 1.0000 tgt 0.6024 | 423s
+[s3-cccov-WA-g0p3-seed1] it  1900 | cls 0.0038 coral 2.074e+00 | src 1.0000 tgt 0.6053 | 447s
+[s3-cccov-WA-g0p3-seed1] it  2000 | cls 0.0033 coral 2.103e+00 | src 1.0000 tgt 0.6013 | 471s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 1 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.1 --cc_terms both --name s3-cc-AW-g0p1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AW-g0p1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0365 | 15s
+[s3-cc-AW-g0p1-seed1] it   100 | cls 0.8053 coral 1.716e-01 | src 0.9610 tgt 0.7132 | 38s
+[s3-cc-AW-g0p1-seed1] it   200 | cls 0.2511 coral 1.456e-01 | src 0.9968 tgt 0.7522 | 58s
+[s3-cc-AW-g0p1-seed1] it   300 | cls 0.1340 coral 1.304e-01 | src 1.0000 tgt 0.7535 | 77s
+[s3-cc-AW-g0p1-seed1] it   400 | cls 0.0935 coral 1.167e-01 | src 1.0000 tgt 0.7547 | 97s
+[s3-cc-AW-g0p1-seed1] it   500 | cls 0.0745 coral 1.067e-01 | src 0.9996 tgt 0.7497 | 116s
+[s3-cc-AW-g0p1-seed1] it   600 | cls 0.0613 coral 1.035e-01 | src 1.0000 tgt 0.7497 | 136s
+[s3-cc-AW-g0p1-seed1] it   700 | cls 0.0568 coral 9.930e-02 | src 1.0000 tgt 0.7497 | 161s
+[s3-cc-AW-g0p1-seed1] it   800 | cls 0.0572 coral 9.804e-02 | src 1.0000 tgt 0.7497 | 185s
+[s3-cc-AW-g0p1-seed1] it   900 | cls 0.0530 coral 9.714e-02 | src 1.0000 tgt 0.7509 | 210s
+[s3-cc-AW-g0p1-seed1] it  1000 | cls 0.0508 coral 9.465e-02 | src 1.0000 tgt 0.7497 | 234s
+[s3-cc-AW-g0p1-seed1] it  1100 | cls 0.0533 coral 9.487e-02 | src 1.0000 tgt 0.7509 | 259s
+[s3-cc-AW-g0p1-seed1] it  1200 | cls 0.0519 coral 9.323e-02 | src 1.0000 tgt 0.7497 | 283s
+[s3-cc-AW-g0p1-seed1] it  1300 | cls 0.0516 coral 9.351e-02 | src 1.0000 tgt 0.7497 | 308s
+[s3-cc-AW-g0p1-seed1] it  1400 | cls 0.0514 coral 9.406e-02 | src 1.0000 tgt 0.7497 | 333s
+[s3-cc-AW-g0p1-seed1] it  1500 | cls 0.0491 coral 9.438e-02 | src 1.0000 tgt 0.7497 | 358s
+[s3-cc-AW-g0p1-seed1] it  1600 | cls 0.0528 coral 9.645e-02 | src 1.0000 tgt 0.7497 | 384s
+[s3-cc-AW-g0p1-seed1] it  1700 | cls 0.0515 coral 9.513e-02 | src 1.0000 tgt 0.7497 | 409s
+[s3-cc-AW-g0p1-seed1] it  1800 | cls 0.0519 coral 9.428e-02 | src 1.0000 tgt 0.7509 | 434s
+[s3-cc-AW-g0p1-seed1] it  1900 | cls 0.0508 coral 9.556e-02 | src 1.0000 tgt 0.7497 | 459s
+[s3-cc-AW-g0p1-seed1] it  2000 | cls 0.0518 coral 9.388e-02 | src 1.0000 tgt 0.7497 | 483s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 1 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.1 --cc_terms both --name s3-cc-AD-g0p1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AD-g0p1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0261 | 16s
+[s3-cc-AD-g0p1-seed1] it   100 | cls 0.7928 coral 8.715e-01 | src 0.9645 tgt 0.6988 | 39s
+[s3-cc-AD-g0p1-seed1] it   200 | cls 0.2139 coral 8.183e-01 | src 0.9975 tgt 0.6968 | 58s
+[s3-cc-AD-g0p1-seed1] it   300 | cls 0.1082 coral 7.521e-01 | src 0.9996 tgt 0.6968 | 78s
+[s3-cc-AD-g0p1-seed1] it   400 | cls 0.0652 coral 6.705e-01 | src 0.9993 tgt 0.7028 | 97s
+[s3-cc-AD-g0p1-seed1] it   500 | cls 0.0467 coral 6.002e-01 | src 0.9996 tgt 0.6928 | 116s
+[s3-cc-AD-g0p1-seed1] it   600 | cls 0.0360 coral 5.391e-01 | src 0.9996 tgt 0.7008 | 136s
+[s3-cc-AD-g0p1-seed1] it   700 | cls 0.0303 coral 5.107e-01 | src 1.0000 tgt 0.7008 | 160s
+[s3-cc-AD-g0p1-seed1] it   800 | cls 0.0285 coral 5.005e-01 | src 1.0000 tgt 0.7008 | 185s
+[s3-cc-AD-g0p1-seed1] it   900 | cls 0.0294 coral 4.865e-01 | src 1.0000 tgt 0.6968 | 209s
+[s3-cc-AD-g0p1-seed1] it  1000 | cls 0.0272 coral 4.655e-01 | src 1.0000 tgt 0.6988 | 234s
+[s3-cc-AD-g0p1-seed1] it  1100 | cls 0.0277 coral 4.613e-01 | src 1.0000 tgt 0.6948 | 259s
+[s3-cc-AD-g0p1-seed1] it  1200 | cls 0.0268 coral 4.588e-01 | src 1.0000 tgt 0.6968 | 284s
+[s3-cc-AD-g0p1-seed1] it  1300 | cls 0.0276 coral 4.606e-01 | src 1.0000 tgt 0.7008 | 309s
+[s3-cc-AD-g0p1-seed1] it  1400 | cls 0.0264 coral 4.519e-01 | src 1.0000 tgt 0.6988 | 334s
+[s3-cc-AD-g0p1-seed1] it  1500 | cls 0.0241 coral 4.616e-01 | src 1.0000 tgt 0.6988 | 358s
+[s3-cc-AD-g0p1-seed1] it  1600 | cls 0.0281 coral 4.596e-01 | src 1.0000 tgt 0.7008 | 383s
+[s3-cc-AD-g0p1-seed1] it  1700 | cls 0.0287 coral 4.532e-01 | src 1.0000 tgt 0.6988 | 407s
+[s3-cc-AD-g0p1-seed1] it  1800 | cls 0.0276 coral 4.543e-01 | src 1.0000 tgt 0.7008 | 431s
+[s3-cc-AD-g0p1-seed1] it  1900 | cls 0.0273 coral 4.632e-01 | src 1.0000 tgt 0.6988 | 456s
+[s3-cc-AD-g0p1-seed1] it  2000 | cls 0.0276 coral 4.508e-01 | src 1.0000 tgt 0.6968 | 481s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 1 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.1 --cc_terms both --name s3-cc-DA-g0p1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-DA-g0p1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0221 tgt 0.0444 | 16s
+[s3-cc-DA-g0p1-seed1] it   100 | cls 0.1643 coral 1.777e+01 | src 1.0000 tgt 0.5705 | 39s
+[s3-cc-DA-g0p1-seed1] it   200 | cls 0.0047 coral 1.540e+01 | src 1.0000 tgt 0.5914 | 59s
+[s3-cc-DA-g0p1-seed1] it   300 | cls 0.0043 coral 1.332e+01 | src 1.0000 tgt 0.5985 | 79s
+[s3-cc-DA-g0p1-seed1] it   400 | cls 0.0032 coral 1.238e+01 | src 1.0000 tgt 0.5964 | 99s
+[s3-cc-DA-g0p1-seed1] it   500 | cls 0.0036 coral 1.089e+01 | src 1.0000 tgt 0.5999 | 118s
+[s3-cc-DA-g0p1-seed1] it   600 | cls 0.0010 coral 1.094e+01 | src 1.0000 tgt 0.6017 | 138s
+[s3-cc-DA-g0p1-seed1] it   700 | cls 0.0025 coral 4.266e+00 | src 1.0000 tgt 0.6006 | 163s
+[s3-cc-DA-g0p1-seed1] it   800 | cls 0.0014 coral 3.535e+00 | src 1.0000 tgt 0.6021 | 188s
+[s3-cc-DA-g0p1-seed1] it   900 | cls 0.0013 coral 3.211e+00 | src 1.0000 tgt 0.6067 | 213s
+[s3-cc-DA-g0p1-seed1] it  1000 | cls 0.0012 coral 3.051e+00 | src 1.0000 tgt 0.6063 | 238s
+[s3-cc-DA-g0p1-seed1] it  1100 | cls 0.0018 coral 2.850e+00 | src 1.0000 tgt 0.6081 | 262s
+[s3-cc-DA-g0p1-seed1] it  1200 | cls 0.0017 coral 2.948e+00 | src 1.0000 tgt 0.6074 | 287s
+[s3-cc-DA-g0p1-seed1] it  1300 | cls 0.0014 coral 2.854e+00 | src 1.0000 tgt 0.6092 | 312s
+[s3-cc-DA-g0p1-seed1] it  1400 | cls 0.0014 coral 2.815e+00 | src 1.0000 tgt 0.6092 | 337s
+[s3-cc-DA-g0p1-seed1] it  1500 | cls 0.0012 coral 2.822e+00 | src 1.0000 tgt 0.6081 | 361s
+[s3-cc-DA-g0p1-seed1] it  1600 | cls 0.0018 coral 2.783e+00 | src 1.0000 tgt 0.6060 | 386s
+[s3-cc-DA-g0p1-seed1] it  1700 | cls 0.0014 coral 2.784e+00 | src 1.0000 tgt 0.6077 | 411s
+[s3-cc-DA-g0p1-seed1] it  1800 | cls 0.0014 coral 2.819e+00 | src 1.0000 tgt 0.6095 | 436s
+[s3-cc-DA-g0p1-seed1] it  1900 | cls 0.0015 coral 2.798e+00 | src 1.0000 tgt 0.6074 | 461s
+[s3-cc-DA-g0p1-seed1] it  2000 | cls 0.0015 coral 2.840e+00 | src 1.0000 tgt 0.6088 | 487s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 1 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 0.1 --cc_terms both --name s3-cc-WA-g0p1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-WA-g0p1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0289 tgt 0.0447 | 15s
+[s3-cc-WA-g0p1-seed1] it   100 | cls 0.2068 coral 1.924e+01 | src 1.0000 tgt 0.5584 | 38s
+[s3-cc-WA-g0p1-seed1] it   200 | cls 0.0084 coral 2.184e+01 | src 1.0000 tgt 0.5761 | 58s
+[s3-cc-WA-g0p1-seed1] it   300 | cls 0.0069 coral 1.857e+01 | src 1.0000 tgt 0.5758 | 78s
+[s3-cc-WA-g0p1-seed1] it   400 | cls 0.0052 coral 1.712e+01 | src 1.0000 tgt 0.5847 | 97s
+[s3-cc-WA-g0p1-seed1] it   500 | cls 0.0043 coral 1.575e+01 | src 1.0000 tgt 0.5829 | 117s
+[s3-cc-WA-g0p1-seed1] it   600 | cls 0.0026 coral 1.445e+01 | src 1.0000 tgt 0.5868 | 136s
+[s3-cc-WA-g0p1-seed1] it   700 | cls 0.0058 coral 4.415e+00 | src 1.0000 tgt 0.5911 | 161s
+[s3-cc-WA-g0p1-seed1] it   800 | cls 0.0035 coral 3.931e+00 | src 1.0000 tgt 0.5889 | 185s
+[s3-cc-WA-g0p1-seed1] it   900 | cls 0.0029 coral 3.808e+00 | src 1.0000 tgt 0.5889 | 210s
+[s3-cc-WA-g0p1-seed1] it  1000 | cls 0.0022 coral 3.490e+00 | src 1.0000 tgt 0.5900 | 234s
+[s3-cc-WA-g0p1-seed1] it  1100 | cls 0.0026 coral 3.452e+00 | src 1.0000 tgt 0.5864 | 259s
+[s3-cc-WA-g0p1-seed1] it  1200 | cls 0.0025 coral 3.347e+00 | src 1.0000 tgt 0.5896 | 283s
+[s3-cc-WA-g0p1-seed1] it  1300 | cls 0.0021 coral 3.418e+00 | src 1.0000 tgt 0.5900 | 308s
+[s3-cc-WA-g0p1-seed1] it  1400 | cls 0.0026 coral 3.346e+00 | src 1.0000 tgt 0.5893 | 333s
+[s3-cc-WA-g0p1-seed1] it  1500 | cls 0.0023 coral 3.423e+00 | src 1.0000 tgt 0.5893 | 358s
+[s3-cc-WA-g0p1-seed1] it  1600 | cls 0.0023 coral 3.271e+00 | src 1.0000 tgt 0.5903 | 383s
+[s3-cc-WA-g0p1-seed1] it  1700 | cls 0.0025 coral 3.301e+00 | src 1.0000 tgt 0.5925 | 408s
+[s3-cc-WA-g0p1-seed1] it  1800 | cls 0.0031 coral 3.434e+00 | src 1.0000 tgt 0.5875 | 433s
+[s3-cc-WA-g0p1-seed1] it  1900 | cls 0.0021 coral 3.331e+00 | src 1.0000 tgt 0.5921 | 457s
+[s3-cc-WA-g0p1-seed1] it  2000 | cls 0.0021 coral 3.364e+00 | src 1.0000 tgt 0.5911 | 482s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AW --seed 1 --lam 0.8 --ent_weight 0.3 --div_weight 0.3 --cc_weight 1.0 --cc_terms both --name s3-cc-AW-g1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AW-g1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0365 | 15s
+[s3-cc-AW-g1-seed1] it   100 | cls 0.8073 coral 1.715e-01 | src 0.9588 tgt 0.7069 | 38s
+[s3-cc-AW-g1-seed1] it   200 | cls 0.2535 coral 1.469e-01 | src 0.9961 tgt 0.7509 | 58s
+[s3-cc-AW-g1-seed1] it   300 | cls 0.1356 coral 1.311e-01 | src 0.9996 tgt 0.7509 | 77s
+[s3-cc-AW-g1-seed1] it   400 | cls 0.0932 coral 1.164e-01 | src 1.0000 tgt 0.7484 | 97s
+[s3-cc-AW-g1-seed1] it   500 | cls 0.0744 coral 1.072e-01 | src 0.9996 tgt 0.7497 | 116s
+[s3-cc-AW-g1-seed1] it   600 | cls 0.0617 coral 1.033e-01 | src 1.0000 tgt 0.7497 | 136s
+[s3-cc-AW-g1-seed1] it   700 | cls 0.0595 coral 9.373e-02 | src 1.0000 tgt 0.7497 | 161s
+[s3-cc-AW-g1-seed1] it   800 | cls 0.0589 coral 9.397e-02 | src 1.0000 tgt 0.7497 | 186s
+[s3-cc-AW-g1-seed1] it   900 | cls 0.0551 coral 9.303e-02 | src 1.0000 tgt 0.7497 | 211s
+[s3-cc-AW-g1-seed1] it  1000 | cls 0.0527 coral 9.057e-02 | src 1.0000 tgt 0.7497 | 236s
+[s3-cc-AW-g1-seed1] it  1100 | cls 0.0546 coral 9.061e-02 | src 1.0000 tgt 0.7497 | 261s
+[s3-cc-AW-g1-seed1] it  1200 | cls 0.0531 coral 8.932e-02 | src 1.0000 tgt 0.7497 | 286s
+[s3-cc-AW-g1-seed1] it  1300 | cls 0.0534 coral 8.937e-02 | src 1.0000 tgt 0.7497 | 310s
+[s3-cc-AW-g1-seed1] it  1400 | cls 0.0529 coral 8.991e-02 | src 1.0000 tgt 0.7497 | 335s
+[s3-cc-AW-g1-seed1] it  1500 | cls 0.0511 coral 9.033e-02 | src 1.0000 tgt 0.7497 | 359s
+[s3-cc-AW-g1-seed1] it  1600 | cls 0.0543 coral 9.226e-02 | src 1.0000 tgt 0.7497 | 384s
+[s3-cc-AW-g1-seed1] it  1700 | cls 0.0532 coral 9.115e-02 | src 1.0000 tgt 0.7497 | 409s
+[s3-cc-AW-g1-seed1] it  1800 | cls 0.0535 coral 9.033e-02 | src 1.0000 tgt 0.7497 | 433s
+[s3-cc-AW-g1-seed1] it  1900 | cls 0.0528 coral 9.147e-02 | src 1.0000 tgt 0.7497 | 458s
+[s3-cc-AW-g1-seed1] it  2000 | cls 0.0531 coral 8.938e-02 | src 1.0000 tgt 0.7497 | 482s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task AD --seed 1 --lam 0.05 --ent_weight 0.3 --div_weight 0.3 --cc_weight 1.0 --cc_terms both --name s3-cc-AD-g1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-AD-g1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0433 tgt 0.0261 | 16s
+[s3-cc-AD-g1-seed1] it   100 | cls 0.7970 coral 8.690e-01 | src 0.9641 tgt 0.6968 | 39s
+[s3-cc-AD-g1-seed1] it   200 | cls 0.2143 coral 8.109e-01 | src 0.9986 tgt 0.7028 | 58s
+[s3-cc-AD-g1-seed1] it   300 | cls 0.1070 coral 7.545e-01 | src 0.9996 tgt 0.7068 | 78s
+[s3-cc-AD-g1-seed1] it   400 | cls 0.0626 coral 6.693e-01 | src 1.0000 tgt 0.7129 | 97s
+[s3-cc-AD-g1-seed1] it   500 | cls 0.0463 coral 6.043e-01 | src 1.0000 tgt 0.7129 | 116s
+[s3-cc-AD-g1-seed1] it   600 | cls 0.0356 coral 5.521e-01 | src 1.0000 tgt 0.7129 | 136s
+[s3-cc-AD-g1-seed1] it   700 | cls 0.0395 coral 3.556e-01 | src 1.0000 tgt 0.7169 | 160s
+[s3-cc-AD-g1-seed1] it   800 | cls 0.0372 coral 3.384e-01 | src 1.0000 tgt 0.7149 | 185s
+[s3-cc-AD-g1-seed1] it   900 | cls 0.0366 coral 3.265e-01 | src 1.0000 tgt 0.7108 | 210s
+[s3-cc-AD-g1-seed1] it  1000 | cls 0.0343 coral 3.110e-01 | src 1.0000 tgt 0.7129 | 234s
+[s3-cc-AD-g1-seed1] it  1100 | cls 0.0352 coral 3.101e-01 | src 1.0000 tgt 0.7088 | 259s
+[s3-cc-AD-g1-seed1] it  1200 | cls 0.0326 coral 3.086e-01 | src 1.0000 tgt 0.7088 | 283s
+[s3-cc-AD-g1-seed1] it  1300 | cls 0.0354 coral 3.083e-01 | src 1.0000 tgt 0.7108 | 308s
+[s3-cc-AD-g1-seed1] it  1400 | cls 0.0327 coral 3.046e-01 | src 1.0000 tgt 0.7088 | 332s
+[s3-cc-AD-g1-seed1] it  1500 | cls 0.0306 coral 3.085e-01 | src 1.0000 tgt 0.7108 | 357s
+[s3-cc-AD-g1-seed1] it  1600 | cls 0.0347 coral 3.063e-01 | src 1.0000 tgt 0.7108 | 382s
+[s3-cc-AD-g1-seed1] it  1700 | cls 0.0351 coral 3.047e-01 | src 1.0000 tgt 0.7129 | 406s
+[s3-cc-AD-g1-seed1] it  1800 | cls 0.0342 coral 3.027e-01 | src 1.0000 tgt 0.7129 | 431s
+[s3-cc-AD-g1-seed1] it  1900 | cls 0.0341 coral 3.094e-01 | src 1.0000 tgt 0.7129 | 456s
+[s3-cc-AD-g1-seed1] it  2000 | cls 0.0335 coral 2.997e-01 | src 1.0000 tgt 0.7129 | 482s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task DA --seed 1 --lam 0.001 --ent_weight 0.3 --div_weight 0.3 --cc_weight 1.0 --cc_terms both --name s3-cc-DA-g1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-DA-g1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0221 tgt 0.0444 | 16s
+[s3-cc-DA-g1-seed1] it   100 | cls 0.1647 coral 1.767e+01 | src 1.0000 tgt 0.5769 | 40s
+[s3-cc-DA-g1-seed1] it   200 | cls 0.0051 coral 1.520e+01 | src 1.0000 tgt 0.5882 | 60s
+[s3-cc-DA-g1-seed1] it   300 | cls 0.0030 coral 1.340e+01 | src 1.0000 tgt 0.5999 | 79s
+[s3-cc-DA-g1-seed1] it   400 | cls 0.0025 coral 1.211e+01 | src 1.0000 tgt 0.6010 | 99s
+[s3-cc-DA-g1-seed1] it   500 | cls 0.0033 coral 1.085e+01 | src 1.0000 tgt 0.6049 | 119s
+[s3-cc-DA-g1-seed1] it   600 | cls 0.0011 coral 1.036e+01 | src 1.0000 tgt 0.6077 | 139s
+[s3-cc-DA-g1-seed1] it   700 | cls 0.0949 coral 7.086e-01 | src 1.0000 tgt 0.5982 | 164s
+[s3-cc-DA-g1-seed1] it   800 | cls 0.0122 coral 7.753e-01 | src 1.0000 tgt 0.6063 | 189s
+[s3-cc-DA-g1-seed1] it   900 | cls 0.0087 coral 7.878e-01 | src 1.0000 tgt 0.6113 | 214s
+[s3-cc-DA-g1-seed1] it  1000 | cls 0.0066 coral 8.014e-01 | src 1.0000 tgt 0.6106 | 239s
+[s3-cc-DA-g1-seed1] it  1100 | cls 0.0069 coral 7.694e-01 | src 1.0000 tgt 0.6163 | 264s
+[s3-cc-DA-g1-seed1] it  1200 | cls 0.0069 coral 7.985e-01 | src 1.0000 tgt 0.6155 | 289s
+[s3-cc-DA-g1-seed1] it  1300 | cls 0.0061 coral 7.926e-01 | src 1.0000 tgt 0.6145 | 314s
+[s3-cc-DA-g1-seed1] it  1400 | cls 0.0065 coral 7.815e-01 | src 1.0000 tgt 0.6138 | 340s
+[s3-cc-DA-g1-seed1] it  1500 | cls 0.0064 coral 7.831e-01 | src 1.0000 tgt 0.6134 | 365s
+[s3-cc-DA-g1-seed1] it  1600 | cls 0.0066 coral 7.687e-01 | src 1.0000 tgt 0.6113 | 391s
+[s3-cc-DA-g1-seed1] it  1700 | cls 0.0066 coral 7.616e-01 | src 1.0000 tgt 0.6113 | 415s
+[s3-cc-DA-g1-seed1] it  1800 | cls 0.0063 coral 7.828e-01 | src 1.0000 tgt 0.6127 | 440s
+[s3-cc-DA-g1-seed1] it  1900 | cls 0.0062 coral 7.659e-01 | src 1.0000 tgt 0.6120 | 465s
+[s3-cc-DA-g1-seed1] it  2000 | cls 0.0063 coral 7.739e-01 | src 1.0000 tgt 0.6145 | 490s
+>> C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\deepcoral_1_env\Scripts\python.exe C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_stage3_20261029\deepcoral_1-main\train.py --preset caffe --task WA --seed 1 --lam 0.0007 --ent_weight 0.3 --div_weight 0.3 --cc_weight 1.0 --cc_terms both --name s3-cc-WA-g1-seed1 --out_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\outputs\stage3_class_conditional_20261029 --data_dir C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\office31_cache_caffe_20261027 --caffenet_weights C:\Users\liu'hua\Documents\Codex\2026-10-26\referenced-chatgpt-conversation-this-is-an\work\source_20261027\deepcoral_1-main\weights\caffenet_imagenet.pth
+[s3-cc-WA-g1-seed1] it     0 | cls 0.0000 coral 0.000e+00 | src 0.0289 tgt 0.0447 | 15s
+[s3-cc-WA-g1-seed1] it   100 | cls 0.2071 coral 1.916e+01 | src 1.0000 tgt 0.5698 | 38s
+[s3-cc-WA-g1-seed1] it   200 | cls 0.0078 coral 2.193e+01 | src 1.0000 tgt 0.5715 | 58s
+[s3-cc-WA-g1-seed1] it   300 | cls 0.0061 coral 1.889e+01 | src 1.0000 tgt 0.5690 | 77s
+[s3-cc-WA-g1-seed1] it   400 | cls 0.0053 coral 1.652e+01 | src 1.0000 tgt 0.5797 | 97s
+[s3-cc-WA-g1-seed1] it   500 | cls 0.0023 coral 1.616e+01 | src 1.0000 tgt 0.5928 | 117s
+[s3-cc-WA-g1-seed1] it   600 | cls 0.0026 coral 1.557e+01 | src 1.0000 tgt 0.5889 | 136s
+[s3-cc-WA-g1-seed1] it   700 | cls 0.2447 coral 1.004e+00 | src 1.0000 tgt 0.5485 | 161s
+[s3-cc-WA-g1-seed1] it   800 | cls 0.0278 coral 1.157e+00 | src 1.0000 tgt 0.5648 | 187s
+[s3-cc-WA-g1-seed1] it   900 | cls 0.0176 coral 1.070e+00 | src 1.0000 tgt 0.5683 | 212s
+[s3-cc-WA-g1-seed1] it  1000 | cls 0.0137 coral 9.865e-01 | src 1.0000 tgt 0.5751 | 237s
+[s3-cc-WA-g1-seed1] it  1100 | cls 0.0139 coral 9.624e-01 | src 1.0000 tgt 0.5744 | 262s
+[s3-cc-WA-g1-seed1] it  1200 | cls 0.0118 coral 9.244e-01 | src 1.0000 tgt 0.5772 | 286s
+[s3-cc-WA-g1-seed1] it  1300 | cls 0.0128 coral 9.546e-01 | src 1.0000 tgt 0.5815 | 311s
+[s3-cc-WA-g1-seed1] it  1400 | cls 0.0121 coral 9.477e-01 | src 1.0000 tgt 0.5790 | 336s
+[s3-cc-WA-g1-seed1] it  1500 | cls 0.0123 coral 9.567e-01 | src 1.0000 tgt 0.5783 | 360s
+[s3-cc-WA-g1-seed1] it  1600 | cls 0.0117 coral 9.290e-01 | src 1.0000 tgt 0.5804 | 385s
+[s3-cc-WA-g1-seed1] it  1700 | cls 0.0112 coral 9.218e-01 | src 1.0000 tgt 0.5772 | 410s
+[s3-cc-WA-g1-seed1] it  1800 | cls 0.0125 coral 9.699e-01 | src 1.0000 tgt 0.5769 | 434s
+[s3-cc-WA-g1-seed1] it  1900 | cls 0.0121 coral 9.116e-01 | src 1.0000 tgt 0.5797 | 459s
+[s3-cc-WA-g1-seed1] it  2000 | cls 0.0110 coral 9.302e-01 | src 1.0000 tgt 0.5811 | 484s
+# 阶段三 改进 2：类条件 CORAL
+
+## 主结果（目标域准确率 %，最后一轮；γ = 0.3）
+
+各方法只统计共有的种子，配对差值按同种子计算。基线、Deep CORAL 来自阶段一，CORAL + IM 来自阶段二。
+
+| 任务 | 基线 | Deep CORAL | CORAL + IM | CORAL + IM + 类条件 | 类条件 − (CORAL+IM) | 类条件 − Deep CORAL | 伪标签占比 / 准确率 |
+|---|---|---|---|---|---|---|---|
+| A→W | 60.5 ± 0.2 (3) | 64.3 ± 1.4 (3) | 76.1 ± 0.8 (3) | 75.8 ± 0.6 (3) | -0.3 [-1.1, +0.4] (3)，不显著 | +11.5 [+7.5, +15.5] (3) | 98.7 / 76.4 |
+| A→D | 62.6 ± 0.2 (3) | 65.7 ± 1.5 (3) | 72.6 ± 2.0 (3) | 73.1 ± 1.3 (3) | +0.5 [-1.1, +2.1] (3)，不显著 | +7.4 [+4.7, +10.2] (3) | 99.3 / 73.2 |
+| D→A | 51.7 ± 0.2 (3) | 51.1 ± 0.1 (3) | 60.5 ± 0.7 (3) | 60.6 ± 0.0 (3) | +0.1 [-1.7, +1.9] (3)，不显著 | +9.5 [+9.1, +9.9] (3) | 84.2 / 67.3 |
+| W→A | 48.6 ± 0.3 (3) | 48.8 ± 0.7 (3) | 56.5 ± 2.5 (3) | 57.0 ± 2.9 (3) | +0.6 [-0.6, +1.7] (3)，不显著 | +8.3 [-0.1, +16.7] (3)，不显著 | 80.5 / 64.4 |
+| 平均（4 个任务） | 55.9 | 57.5 | 66.4 | 66.6 | +0.2 [-0.5, +0.9] (3) | +9.2 [+5.9, +12.4] (3) | |
+
+“不显著”指 95% 置信区间跨 0。伪标签占比 / 准确率：最后一轮评估时置信度 ≥ 0.9 的目标样本占全部目标样本的比例，以及这些样本的预测准确率（用目标标签计算，仅用于分析）。
+
+## 伪标签质量随训练的变化（CORAL + IM + 类条件，种子均值，%）
+
+| 任务 | 启用时占比 / 准确率 | 最后一轮占比 / 准确率 | 准确率变化 |
+|---|---|---|---|
+| A→W | 97.7 / 76.4 | 98.7 / 76.4 | -0.1 |
+| A→D | 99.0 / 73.3 | 99.3 / 73.2 | -0.1 |
+| D→A | 89.8 / 64.2 | 84.2 / 67.3 | +3.1 |
+| W→A | 88.5 / 60.1 | 80.5 / 64.4 | +4.4 |
+
+第 600 步是类条件对齐开始启用的时刻。准确率下降说明伪标签错误被不断强化（确认偏差）。
+
+## 消融：类条件项对齐什么（种子 1，目标域准确率 %）
+
+| 任务 | CORAL + IM | + 只对齐类均值 | + 只对齐类协方差 | + 均值和协方差 |
+|---|---|---|---|---|
+| A→W | 75.7 | 75.0 | 75.1 | 75.2 |
+| A→D | 72.1 | 72.3 | 70.7 | 72.9 |
+| D→A | 59.8 | 61.1 | 61.6 | 60.6 |
+| W→A | 59.4 | 57.3 | 60.1 | 60.3 |
+
+三种类条件变体都加在 CORAL + IM 之上，γ = 0.3。
+
+## γ 敏感性（种子 1，目标域准确率 %）
+
+| 任务 | CORAL + IM（γ = 0） | γ = 0.1 | γ = 0.3 | γ = 1 |
+|---|---|---|---|---|
+| A→W | 75.7 | 75.0 | 75.2 | 75.0 |
+| A→D | 72.1 | 69.7 | 72.9 | 71.3 |
+| D→A | 59.8 | 60.9 | 60.6 | 61.4 |
+| W→A | 59.4 | 59.1 | 60.3 | 58.1 |
+
+γ = 0.3 是事先定好的主设置；这张表只说明结果对 γ 的敏感程度，不用来挑 γ。
+
+## 训练曲线（种子均值；灰色虚线为类条件对齐开始的第 600 步）
+
+![curves](figures/curves.png)
+
